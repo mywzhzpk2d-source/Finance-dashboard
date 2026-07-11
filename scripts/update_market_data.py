@@ -24,14 +24,25 @@ YAHOO_SOURCES = {
     "KOSPI": "^KS11",
 }
 
-def download(series_id: str) -> list[dict]:
+def download(series_id: str, attempts: int = 3) -> list[dict]:
     url = f"https://fred.stlouisfed.org/graph/fredgraph.csv?id={series_id}"
     req = urllib.request.Request(
         url,
         headers={"User-Agent": "Mozilla/5.0 BJ-Market-Terminal/1.0"}
     )
-    with urllib.request.urlopen(req, timeout=30) as response:
-        text = response.read().decode("utf-8-sig")
+
+    last_error: Exception | None = None
+    for attempt in range(1, attempts + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=45) as response:
+                text = response.read().decode("utf-8-sig")
+            break
+        except Exception as exc:
+            last_error = exc
+            if attempt < attempts:
+                time.sleep(2 * attempt)
+            else:
+                raise last_error
 
     rows = []
     for row in csv.DictReader(io.StringIO(text)):
@@ -47,15 +58,26 @@ def download(series_id: str) -> list[dict]:
 
     return rows[-1600:]
 
-def download_yahoo(symbol: str) -> list[dict]:
+def download_yahoo(symbol: str, attempts: int = 3) -> list[dict]:
     encoded = urllib.parse.quote(symbol, safe="")
     url = f"https://query1.finance.yahoo.com/v8/finance/chart/{encoded}?range=10y&interval=1d"
     req = urllib.request.Request(
         url,
         headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) BJ-Market-Terminal/1.0"}
     )
-    with urllib.request.urlopen(req, timeout=30) as response:
-        payload = json.loads(response.read().decode("utf-8"))
+
+    last_error: Exception | None = None
+    for attempt in range(1, attempts + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=45) as response:
+                payload = json.loads(response.read().decode("utf-8"))
+            break
+        except Exception as exc:
+            last_error = exc
+            if attempt < attempts:
+                time.sleep(2 * attempt)
+            else:
+                raise last_error
 
     result = payload["chart"]["result"][0]
     timestamps = result["timestamp"]
