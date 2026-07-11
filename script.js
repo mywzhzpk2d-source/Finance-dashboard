@@ -139,10 +139,19 @@ copyPrompt.onclick=async()=>{try{await navigator.clipboard.writeText(promptOutpu
 // No API key is stored in the site. We download the public FRED CSV series
 // for DGS10 and DGS2, align observations by date, and calculate DGS10 - DGS2.
 async function fetchFredSeries(seriesId){
-  const url = `https://fred.stlouisfed.org/graph/fredgraph.csv?id=${seriesId}`;
-  const res = await fetch(url, {cache:"no-store"});
-  if(!res.ok) throw new Error(`${seriesId} HTTP ${res.status}`);
-  const text = await res.text();
+  const directUrl = `https://fred.stlouisfed.org/graph/fredgraph.csv?id=${seriesId}`;
+  let text;
+  try{
+    const res = await fetch(directUrl, {cache:"no-store"});
+    if(!res.ok) throw new Error(`${seriesId} HTTP ${res.status}`);
+    text = await res.text();
+  }catch(directErr){
+    // 브라우저(특히 인앱 브라우저)에서 CORS로 직접 호출이 막히는 경우 공개 프록시로 재시도.
+    const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(directUrl)}`;
+    const res2 = await fetch(proxyUrl, {cache:"no-store"});
+    if(!res2.ok) throw new Error(`${seriesId} proxy HTTP ${res2.status}`);
+    text = await res2.text();
+  }
   const lines = text.trim().split(/\r?\n/);
   const map = new Map();
   for(let i=1;i<lines.length;i++){
@@ -259,3 +268,69 @@ async function renderRealSpread(){
   }
 }
 renderRealSpread();
+
+// ===== TradingView widgets: staggered loading =====
+// 위젯을 한 번에 10개 이상 동시에 그리면 인앱 브라우저 등 일부 환경에서
+// "This symbol is only available on TradingView" 오류나 기본 심볼(AAPL)로
+// 잘못 표시되는 문제가 발생한다. 컨테이너 수를 줄이고, 순서대로 간격을 두고
+// 스크립트를 주입해 안정적으로 로드되게 한다.
+function loadTVWidget(containerId, scriptSrc, config, delay){
+  setTimeout(()=>{
+    const container = document.getElementById(containerId);
+    if(!container) return;
+    const wrapper = document.createElement("div");
+    wrapper.className = "tradingview-widget-container";
+    const widgetDiv = document.createElement("div");
+    widgetDiv.className = "tradingview-widget-container__widget";
+    wrapper.appendChild(widgetDiv);
+    const script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src = scriptSrc;
+    script.async = true;
+    script.textContent = JSON.stringify(config);
+    wrapper.appendChild(script);
+    container.appendChild(wrapper);
+  }, delay);
+}
+
+const ADV = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
+const OVERVIEW = "https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js";
+
+loadTVWidget("tv-us10y", ADV, {
+  autosize:true, symbol:"TVC:US10Y", interval:"D", timezone:"exchange", theme:"dark", style:"1",
+  locale:"en", hide_side_toolbar:true, hide_top_toolbar:false, allow_symbol_change:false,
+  save_image:false, withdateranges:true, hide_volume:true
+}, 0);
+
+loadTVWidget("tv-us02y", ADV, {
+  autosize:true, symbol:"TVC:US02Y", interval:"D", timezone:"exchange", theme:"dark", style:"1",
+  locale:"en", hide_side_toolbar:true, hide_top_toolbar:false, allow_symbol_change:false,
+  save_image:false, withdateranges:true, hide_volume:true
+}, 500);
+
+loadTVWidget("tv-macro-overview", OVERVIEW, {
+  symbols:[
+    ["Dollar Index","TVC:DXY|1D"],
+    ["M2 Money Supply","FRED:M2SL|1M"],
+    ["Gold","OANDA:XAUUSD|1D"],
+    ["WTI Crude Oil","TVC:USOIL|1D"],
+    ["Copper","CAPITALCOM:COPPER|1D"]
+  ],
+  chartOnly:false, width:"100%", height:"100%", locale:"en", colorTheme:"dark", autosize:true,
+  showVolume:false, showMA:false, hideDateRanges:false, hideMarketStatus:false, hideSymbolLogo:false,
+  scalePosition:"right", scaleMode:"Normal", fontSize:"11", noTimeScale:false,
+  valuesTracking:"1", changeMode:"price-and-percent", chartType:"area", lineWidth:2
+}, 1000);
+
+loadTVWidget("tv-risk-overview", OVERVIEW, {
+  symbols:[
+    ["NASDAQ Composite","NASDAQ:IXIC|1D"],
+    ["Dow Jones","DJ:DJI|1D"],
+    ["KOSPI","KRX:KOSPI|1D"],
+    ["VIX","CBOE:VIX|1D"]
+  ],
+  chartOnly:false, width:"100%", height:"100%", locale:"en", colorTheme:"dark", autosize:true,
+  showVolume:false, showMA:false, hideDateRanges:false, hideMarketStatus:false, hideSymbolLogo:false,
+  scalePosition:"right", scaleMode:"Normal", fontSize:"11", noTimeScale:false,
+  valuesTracking:"1", changeMode:"price-and-percent", chartType:"area", lineWidth:2
+}, 1500);

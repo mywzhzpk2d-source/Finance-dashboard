@@ -53,54 +53,12 @@
         <div class="chart-card rate-grid">
           <div class="rate-chart">
             <div class="chart-label">US 10Y Treasury Yield <span>TVC:US10Y</span></div>
-            <div class="tv-box">
-              <div class="tradingview-widget-container">
-                <div class="tradingview-widget-container__widget"></div>
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                {
-                  "autosize": true,
-                  "symbol": "TVC:US10Y",
-                  "interval": "D",
-                  "timezone": "exchange",
-                  "theme": "dark",
-                  "style": "1",
-                  "locale": "en",
-                  "hide_side_toolbar": true,
-                  "hide_top_toolbar": false,
-                  "allow_symbol_change": false,
-                  "save_image": false,
-                  "withdateranges": true,
-                  "hide_volume": true
-                }
-                </script>
-              </div>
-            </div>
+            <div class="tv-box" id="tv-us10y"></div>
           </div>
 
           <div class="rate-chart">
             <div class="chart-label">US 2Y Treasury Yield <span>TVC:US02Y</span></div>
-            <div class="tv-box">
-              <div class="tradingview-widget-container">
-                <div class="tradingview-widget-container__widget"></div>
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                {
-                  "autosize": true,
-                  "symbol": "TVC:US02Y",
-                  "interval": "D",
-                  "timezone": "exchange",
-                  "theme": "dark",
-                  "style": "1",
-                  "locale": "en",
-                  "hide_side_toolbar": true,
-                  "hide_top_toolbar": false,
-                  "allow_symbol_change": false,
-                  "save_image": false,
-                  "withdateranges": true,
-                  "hide_volume": true
-                }
-                </script>
-              </div>
-            </div>
+            <div class="tv-box" id="tv-us02y"></div>
           </div>
         </div>
 
@@ -120,115 +78,22 @@
       <section class="section-block">
         <div class="section-title-row">
           <div><span class="section-kicker">LIQUIDITY & COMMODITIES</span><h3>핵심 매크로 보조지표</h3></div>
+          <span class="subtle">달러 · M2 · 금 · 원유 · 구리</span>
         </div>
 
-        <div class="mini-grid">
-          <div class="chart-card mini-tv">
-            <div class="chart-label">Dollar Index <span>TVC:DXY</span></div>
-            <div class="tv-box">
-              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                {"autosize":true,"symbol":"TVC:DXY","interval":"D","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":true,"allow_symbol_change":false,"save_image":false,"hide_volume":true}
-                </script>
-              </div>
-            </div>
-          </div>
-
-          <div class="chart-card mini-tv">
-            <div class="chart-label">M2 Money Supply <span>FRED:M2SL</span></div>
-            <div class="tv-box">
-              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                {"autosize":true,"symbol":"FRED:M2SL","interval":"M","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":true,"allow_symbol_change":false,"save_image":false,"hide_volume":true}
-                </script>
-              </div>
-            </div>
-          </div>
-
-          <div class="chart-card mini-tv">
-            <div class="chart-label">Gold <span>OANDA:XAUUSD</span></div>
-            <div class="tv-box">
-              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                {"autosize":true,"symbol":"OANDA:XAUUSD","interval":"D","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":true,"allow_symbol_change":false,"save_image":false,"hide_volume":true}
-                </script>
-              </div>
-            </div>
-          </div>
-
-          <div class="chart-card mini-tv">
-            <div class="chart-label">WTI Crude Oil <span>NYMEX:CL1!</span></div>
-            <div class="tv-box">
-              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                {"autosize":true,"symbol":"NYMEX:CL1!","interval":"D","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":true,"allow_symbol_change":false,"save_image":false,"hide_volume":true}
-                </script>
-              </div>
-            </div>
-          </div>
-
-          <div class="chart-card mini-tv">
-            <div class="chart-label">Copper <span>COMEX:HG1!</span></div>
-            <div class="tv-box">
-              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                {"autosize":true,"symbol":"COMEX:HG1!","interval":"D","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":true,"allow_symbol_change":false,"save_image":false,"hide_volume":true}
-                </script>
-              </div>
-            </div>
-          </div>
+        <div class="chart-card overview-card">
+          <div class="overview-box" id="tv-macro-overview"></div>
         </div>
       </section>
 
       <section class="section-block">
         <div class="section-title-row">
           <div><span class="section-kicker">RISK ASSETS</span><h3>주요 지수와 변동성</h3></div>
+          <span class="subtle">NASDAQ · Dow · KOSPI · VIX</span>
         </div>
 
-        <div class="index-grid">
-          <div class="chart-card index-tv">
-            <div class="chart-label">NASDAQ Composite <span>NASDAQ:IXIC</span></div>
-            <div class="tv-box">
-              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                {"autosize":true,"symbol":"NASDAQ:IXIC","interval":"D","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":false,"allow_symbol_change":false,"save_image":false,"withdateranges":true,"hide_volume":true}
-                </script>
-              </div>
-            </div>
-          </div>
-
-          <div class="chart-card index-tv">
-            <div class="chart-label">Dow Jones <span>DJ:DJI</span></div>
-            <div class="tv-box">
-              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                {"autosize":true,"symbol":"DJ:DJI","interval":"D","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":false,"allow_symbol_change":false,"save_image":false,"withdateranges":true,"hide_volume":true}
-                </script>
-              </div>
-            </div>
-          </div>
-
-          <div class="chart-card index-tv">
-            <div class="chart-label">KOSPI <span>KRX:KOSPI</span></div>
-            <div class="tv-box">
-              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                {"autosize":true,"symbol":"KRX:KOSPI","interval":"D","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":false,"allow_symbol_change":false,"save_image":false,"withdateranges":true,"hide_volume":true}
-                </script>
-              </div>
-            </div>
-          </div>
-
-          <div class="chart-card index-tv">
-            <div class="chart-label">VIX <span>CBOE:VIX</span></div>
-            <div class="tv-box">
-              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
-                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
-                {"autosize":true,"symbol":"CBOE:VIX","interval":"D","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":false,"allow_symbol_change":false,"save_image":false,"withdateranges":true,"hide_volume":true}
-                </script>
-              </div>
-            </div>
-          </div>
+        <div class="chart-card overview-card">
+          <div class="overview-box" id="tv-risk-overview"></div>
         </div>
       </section>
 
