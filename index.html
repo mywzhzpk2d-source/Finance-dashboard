@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BJ Finance Terminal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">BJ</div>
+        <div>
+          <h1>Finance Terminal</h1>
+          <p>Personal Market Dashboard</p>
+        </div>
+      </div>
+
+      <nav>
+        <button class="nav-item active" data-target="dashboard">대시보드</button>
+        <button class="nav-item" data-target="watchlist">관심종목</button>
+        <button class="nav-item" data-target="journal">매매일지</button>
+        <button class="nav-item" data-target="study">금융공학 공부</button>
+        <button class="nav-item" data-target="ai">AI Analyst</button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <span class="status-dot"></span>
+        <span>Local personal workspace</span>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">PERSONAL INVESTMENT WORKSPACE</p>
+          <h2 id="page-title">시장 대시보드</h2>
+        </div>
+        <div class="top-actions">
+          <span id="today"></span>
+          <button id="theme-toggle" class="ghost-btn">다크 모드</button>
+        </div>
+      </header>
+
+      <section id="dashboard" class="page active">
+        <div class="hero-card">
+          <div>
+            <span class="pill">TODAY'S FOCUS</span>
+            <h3>추세는 따르되, 리스크는 숫자로 관리한다.</h3>
+            <p>장기 추세 · 유동성 · 금리 · 수급 · 변동성을 한 화면에서 점검하는 개인 투자 터미널.</p>
+          </div>
+          <div class="market-regime">
+            <span>현재 시장 레짐</span>
+            <strong id="regime-text">중립 · 추세 확인 구간</strong>
+          </div>
+        </div>
+
+        <div class="grid metrics">
+          <article class="metric-card">
+            <span>NASDAQ 100</span>
+            <strong>—</strong>
+            <small>실시간 API 연결 전</small>
+          </article>
+          <article class="metric-card">
+            <span>US 10Y</span>
+            <strong>—</strong>
+            <small>장기 할인율 체크</small>
+          </article>
+          <article class="metric-card">
+            <span>US 2Y</span>
+            <strong>—</strong>
+            <small>연준 기대 반영</small>
+          </article>
+          <article class="metric-card">
+            <span>DXY</span>
+            <strong>—</strong>
+            <small>달러 유동성 체크</small>
+          </article>
+          <article class="metric-card">
+            <span>VIX</span>
+            <strong>—</strong>
+            <small>변동성 체감</small>
+          </article>
+          <article class="metric-card">
+            <span>WTI</span>
+            <strong>—</strong>
+            <small>인플레이션 압력</small>
+          </article>
+        </div>
+
+        <div class="grid two-col">
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <span class="kicker">CHECKLIST</span>
+                <h3>오늘의 시장 점검</h3>
+              </div>
+              <button id="reset-checklist" class="text-btn">초기화</button>
+            </div>
+            <div id="checklist" class="checklist"></div>
+          </article>
+
+          <article class="panel">
+            <div class="panel-head">
+              <div>
+                <span class="kicker">MARKET NOTES</span>
+                <h3>오늘의 시장 메모</h3>
+              </div>
+            </div>
+            <textarea id="market-note" placeholder="오늘 시장의 핵심 흐름, 리스크, 대응 계획을 기록하세요."></textarea>
+            <button id="save-market-note" class="primary-btn">메모 저장</button>
+          </article>
+        </div>
+      </section>
+
+      <section id="watchlist" class="page">
+        <div class="section-intro">
+          <span class="kicker">WATCHLIST</span>
+          <h3>관심종목 관리</h3>
+          <p>종목과 핵심 논리를 저장해두고 매수 전 다시 확인합니다.</p>
+        </div>
+        <div class="panel">
+          <div class="form-row">
+            <input id="ticker-input" placeholder="티커 예: COHR" />
+            <input id="thesis-input" placeholder="투자 논리 예: 광통신 업황 회복" />
+            <button id="add-watch" class="primary-btn">추가</button>
+          </div>
+          <div id="watchlist-table" class="data-list"></div>
+        </div>
+      </section>
+
+      <section id="journal" class="page">
+        <div class="section-intro">
+          <span class="kicker">TRADING JOURNAL</span>
+          <h3>매매일지</h3>
+          <p>감정이 아니라 진입 근거와 청산 기준을 남깁니다.</p>
+        </div>
+        <div class="panel">
+          <div class="journal-grid">
+            <input id="journal-ticker" placeholder="티커" />
+            <select id="journal-action">
+              <option>매수</option>
+              <option>매도</option>
+              <option>관망</option>
+            </select>
+            <input id="journal-price" type="number" placeholder="가격" step="0.01" />
+            <input id="journal-risk" placeholder="손절/리스크 기준" />
+          </div>
+          <textarea id="journal-reason" placeholder="진입 근거, 기술적 위치, 매크로 배경, 감정 상태 등을 기록하세요."></textarea>
+          <button id="save-journal" class="primary-btn">일지 저장</button>
+          <div id="journal-list" class="data-list"></div>
+        </div>
+      </section>
+
+      <section id="study" class="page">
+        <div class="section-intro">
+          <span class="kicker">QUANT & FINANCE</span>
+          <h3>금융공학 공부</h3>
+          <p>금융수학·확률통계·파생상품·Python 순서로 학습 진도를 관리합니다.</p>
+        </div>
+        <div class="grid study-grid" id="study-cards"></div>
+      </section>
+
+      <section id="ai" class="page">
+        <div class="section-intro">
+          <span class="kicker">AI ANALYST</span>
+          <h3>AI 시장 분석 프롬프트</h3>
+          <p>현재 버전은 프롬프트 생성기입니다. 이후 OpenAI API를 연결하면 실제 대화형 분석기로 확장할 수 있습니다.</p>
+        </div>
+        <div class="panel">
+          <textarea id="ai-question" placeholder="예: 현재 2년물·10년물 금리와 나스닥 흐름을 기준으로 시장 레짐을 분석해줘."></textarea>
+          <button id="build-prompt" class="primary-btn">분석 프롬프트 생성</button>
+          <pre id="prompt-output" class="prompt-box">질문을 입력하면 개인 투자 기준이 반영된 분석 프롬프트가 생성됩니다.</pre>
+          <button id="copy-prompt" class="ghost-btn">프롬프트 복사</button>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
