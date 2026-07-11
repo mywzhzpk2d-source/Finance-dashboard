@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#090d12" />
   <title>BJ Market Terminal</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <link rel="stylesheet" href="style.css" />
 </head>
-<body>
+<body class="dark">
   <div class="app">
     <aside class="sidebar">
       <div class="brand">
@@ -30,10 +30,10 @@
 
       <div class="sidebar-bottom">
         <div class="status-row">
-          <span class="status-dot"></span>
-          <span>Prototype data mode</span>
+          <span class="status-dot live"></span>
+          <span>TradingView data</span>
         </div>
-        <button id="themeToggle" class="secondary-btn full">다크 모드</button>
+        <button id="themeToggle" class="secondary-btn full">라이트 모드</button>
       </div>
     </aside>
 
@@ -49,13 +49,13 @@
       <section id="macro" class="page active">
         <div class="hero">
           <div>
-            <span class="tag">MACRO REGIME</span>
+            <span class="tag">LIVE MARKET DASHBOARD</span>
             <h3>금리 · 유동성 · 원자재 · 위험자산을 한 화면에서 본다.</h3>
-            <p>현재 버전은 구조와 인터랙션을 검증하기 위한 프로토타입이며, 차트는 샘플 데이터로 동작합니다.</p>
+            <p>TradingView 위젯을 이용해 실제 시장 데이터를 표시합니다. 일부 거래소 데이터는 TradingView의 데이터 제공 정책에 따라 지연될 수 있습니다.</p>
           </div>
           <div class="regime-card">
-            <span>현재 레짐</span>
-            <strong>중립 · 유동성 확인 구간</strong>
+            <span>분석 모드</span>
+            <strong>Live market monitoring</strong>
           </div>
         </div>
 
@@ -63,12 +63,17 @@
           <div class="section-title-row">
             <div>
               <span class="section-kicker">RATES</span>
-              <h3>미국 국채 금리와 스프레드</h3>
+              <h3>미국 국채 금리</h3>
             </div>
-            <span class="subtle">10Y · 2Y · Spread zone</span>
+            <span class="subtle">US 10Y + US 2Y 비교</span>
           </div>
-          <div class="chart-card large-chart">
-            <canvas id="ratesChart"></canvas>
+
+          <div class="chart-card tv-card rates-card">
+            <div class="card-note">
+              <strong>10Y / 2Y</strong>
+              <span>현재는 실제 금리 두 시계열을 겹쳐 표시합니다. 스프레드 음영은 별도 데이터 연결 단계에서 추가합니다.</span>
+            </div>
+            <div id="tv-rates" class="tv-widget tall"></div>
           </div>
         </section>
 
@@ -79,12 +84,13 @@
               <h3>핵심 매크로 보조지표</h3>
             </div>
           </div>
+
           <div class="mini-grid">
-            <div class="chart-card mini"><div class="chart-label">Dollar Index</div><canvas id="dxyChart"></canvas></div>
-            <div class="chart-card mini"><div class="chart-label">M2 Money Supply</div><canvas id="m2Chart"></canvas></div>
-            <div class="chart-card mini"><div class="chart-label">Gold</div><canvas id="goldChart"></canvas></div>
-            <div class="chart-card mini"><div class="chart-label">WTI</div><canvas id="wtiChart"></canvas></div>
-            <div class="chart-card mini"><div class="chart-label">Copper</div><canvas id="copperChart"></canvas></div>
+            <div class="chart-card mini-tv"><div class="chart-label">Dollar Index <span>DXY</span></div><div id="tv-dxy" class="tv-widget"></div></div>
+            <div class="chart-card mini-tv"><div class="chart-label">M2 Money Supply <span>M2SL</span></div><div id="tv-m2" class="tv-widget"></div></div>
+            <div class="chart-card mini-tv"><div class="chart-label">Gold <span>XAUUSD</span></div><div id="tv-gold" class="tv-widget"></div></div>
+            <div class="chart-card mini-tv"><div class="chart-label">WTI Crude <span>CL1!</span></div><div id="tv-wti" class="tv-widget"></div></div>
+            <div class="chart-card mini-tv"><div class="chart-label">Copper <span>HG1!</span></div><div id="tv-copper" class="tv-widget"></div></div>
           </div>
         </section>
 
@@ -95,11 +101,12 @@
               <h3>주요 지수와 변동성</h3>
             </div>
           </div>
+
           <div class="index-grid">
-            <div class="chart-card index"><div class="chart-label">NASDAQ</div><canvas id="nasdaqChart"></canvas></div>
-            <div class="chart-card index"><div class="chart-label">Dow Jones</div><canvas id="dowChart"></canvas></div>
-            <div class="chart-card index"><div class="chart-label">KOSPI</div><canvas id="kospiChart"></canvas></div>
-            <div class="chart-card index"><div class="chart-label">VIX</div><canvas id="vixChart"></canvas></div>
+            <div class="chart-card index-tv"><div class="chart-label">NASDAQ Composite <span>IXIC</span></div><div id="tv-nasdaq" class="tv-widget"></div></div>
+            <div class="chart-card index-tv"><div class="chart-label">Dow Jones <span>DJI</span></div><div id="tv-dow" class="tv-widget"></div></div>
+            <div class="chart-card index-tv"><div class="chart-label">KOSPI <span>KOSPI</span></div><div id="tv-kospi" class="tv-widget"></div></div>
+            <div class="chart-card index-tv"><div class="chart-label">VIX <span>VIX</span></div><div id="tv-vix" class="tv-widget"></div></div>
           </div>
         </section>
 
@@ -110,6 +117,7 @@
                 <span class="section-kicker">MARKET STRENGTH</span>
                 <h3>시장강도 순위</h3>
               </div>
+              <span class="manual-badge">LOGIC NEXT</span>
             </div>
             <div id="strengthList" class="ranking-list"></div>
           </div>
@@ -120,6 +128,7 @@
                 <span class="section-kicker">TURNOVER</span>
                 <h3>거래대금 순위</h3>
               </div>
+              <span class="manual-badge">LOGIC NEXT</span>
             </div>
             <div id="turnoverList" class="ranking-list"></div>
           </div>
@@ -130,7 +139,7 @@
         <div class="section-intro">
           <span class="section-kicker">TRADING JOURNAL</span>
           <h3>매매일지</h3>
-          <p>진입 전에 근거를 남기고, 종료 후에 틀린 지점과 잘한 점을 복기합니다.</p>
+          <p>진입 전에 근거를 남기고, 종료 후 틀린 지점과 잘한 점을 복기합니다.</p>
         </div>
 
         <div class="panel">

@@ -1,22 +1,29 @@
-# BJ Market Terminal v2
+# BJ Market Terminal v3
 
-개인용 시장 분석 대시보드 프로토타입.
+TradingView 위젯을 이용해 실제 시장 차트를 표시하는 버전입니다.
 
-## 구성
-- Macro 분석
-  - 미국 10년물/2년물 금리
-  - 10Y-2Y 스프레드 영역
-  - DXY / M2 / Gold / WTI / Copper
-  - NASDAQ / Dow Jones / KOSPI / VIX
-  - 시장강도 순위
-  - 거래대금 순위
-- 매매일지
-- 섹터별 관심종목
-- AI Analyst 프롬프트 생성기
+## 실제 TradingView 연결
+- 미국 10년물 / 2년물 국채금리 비교
+- DXY
+- M2
+- Gold
+- WTI
+- Copper
+- NASDAQ Composite
+- Dow Jones
+- KOSPI
+- VIX
 
-## 실행
-압축 해제 후 index.html 실행.
+## 아직 샘플인 항목
+- 시장강도 순위
+- 거래대금 순위
 
-## 주의
-현재 차트는 UI 검증용 샘플 데이터입니다.
-실시간 데이터 연결은 별도 API 연동 단계에서 구현합니다.
+이 두 항목은 다음 단계에서 별도 계산 로직이나 데이터 소스를 연결해야 합니다.
+
+## GitHub Pages 업데이트
+기존 저장소의 아래 3개 파일을 이 버전으로 교체:
+- index.html
+- style.css
+- script.js
+
+GitHub Pages 설정은 다시 할 필요가 없습니다.

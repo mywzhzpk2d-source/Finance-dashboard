@@ -1,81 +1,75 @@
-const labels = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
+const TV_SCRIPT = "https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js";
 
-const sample = {
-  y10:[4.05,4.12,4.18,4.11,4.22,4.28,4.34,4.31,4.26,4.38,4.33,4.29],
-  y2:[4.31,4.36,4.39,4.34,4.42,4.46,4.52,4.48,4.39,4.45,4.37,4.32],
-  dxy:[102,103,102.5,104,103.2,104.4,105.1,104.8,103.9,104.2,103.6,103.1],
-  m2:[20.8,20.9,21.0,21.05,21.1,21.15,21.2,21.25,21.3,21.35,21.4,21.5],
-  gold:[2020,2040,2070,2100,2140,2180,2200,2250,2280,2310,2350,2390],
-  wti:[74,76,75,78,81,79,83,82,80,78,77,79],
-  copper:[3.8,3.9,4.0,4.1,4.2,4.35,4.28,4.4,4.45,4.38,4.5,4.55],
-  nasdaq:[16000,16300,16600,16450,16900,17200,17600,17800,18100,18300,18550,18800],
-  dow:[37500,37800,38100,38400,38250,38600,39000,39200,39500,39800,40100,40500],
-  kospi:[2520,2550,2580,2600,2570,2620,2650,2680,2700,2720,2750,2780],
-  vix:[15,16,14,18,17,16,19,17,16,15,14,15]
-};
-
-const chartInstances = [];
-
-function colors(){
-  const dark = document.body.classList.contains("dark");
-  return {
-    text: dark ? "#cbd5e1" : "#475467",
-    grid: dark ? "rgba(148,163,184,.12)" : "rgba(15,23,42,.08)"
-  };
+function currentTheme(){
+  return document.body.classList.contains("dark") ? "dark" : "light";
 }
 
-function baseOptions(){
-  const c = colors();
-  return {
-    responsive:true,
-    maintainAspectRatio:false,
-    interaction:{mode:"index",intersect:false},
-    plugins:{legend:{labels:{color:c.text}}},
-    scales:{
-      x:{ticks:{color:c.text,maxTicksLimit:8},grid:{color:c.grid}},
-      y:{ticks:{color:c.text},grid:{color:c.grid}}
-    }
-  };
-}
+function mountTV(containerId, config){
+  const container = document.getElementById(containerId);
+  if(!container) return;
+  container.innerHTML = "";
 
-function makeLine(id, data, label){
-  const ctx=document.getElementById(id);
-  const ch=new Chart(ctx,{
-    type:"line",
-    data:{labels,datasets:[{label,data,borderWidth:2,tension:.25,pointRadius:0,fill:false}]},
-    options:baseOptions()
+  const wrapper = document.createElement("div");
+  wrapper.className = "tradingview-widget-container";
+  wrapper.style.height = "100%";
+  wrapper.style.width = "100%";
+
+  const widget = document.createElement("div");
+  widget.className = "tradingview-widget-container__widget";
+  widget.style.height = "100%";
+  widget.style.width = "100%";
+
+  const script = document.createElement("script");
+  script.type = "text/javascript";
+  script.src = TV_SCRIPT;
+  script.async = true;
+  script.innerHTML = JSON.stringify({
+    autosize: true,
+    interval: "D",
+    timezone: "exchange",
+    theme: currentTheme(),
+    style: "1",
+    locale: "en",
+    backgroundColor: currentTheme() === "dark" ? "#111720" : "#ffffff",
+    gridColor: currentTheme() === "dark" ? "rgba(148, 163, 184, 0.08)" : "rgba(15, 23, 42, 0.06)",
+    hide_side_toolbar: true,
+    hide_top_toolbar: true,
+    hide_legend: false,
+    hide_volume: true,
+    allow_symbol_change: false,
+    save_image: false,
+    withdateranges: false,
+    calendar: false,
+    support_host: "https://www.tradingview.com",
+    ...config
   });
-  chartInstances.push(ch);
+
+  wrapper.appendChild(widget);
+  wrapper.appendChild(script);
+  container.appendChild(wrapper);
 }
 
-function makeRates(){
-  const ctx=document.getElementById("ratesChart");
-  const spread=sample.y10.map((v,i)=>v-sample.y2[i]);
-  const ch=new Chart(ctx,{
-    type:"line",
-    data:{
-      labels,
-      datasets:[
-        {label:"US 10Y",data:sample.y10,borderWidth:2,tension:.25,pointRadius:0},
-        {label:"US 2Y",data:sample.y2,borderWidth:2,tension:.25,pointRadius:0},
-        {label:"10Y-2Y Spread",data:spread,borderWidth:1,tension:.25,pointRadius:0,fill:true}
-      ]
-    },
-    options:baseOptions()
+function mountAllWidgets(){
+  mountTV("tv-rates", {
+    symbol: "TVC:US10Y",
+    hide_top_toolbar: false,
+    withdateranges: true,
+    compareSymbols: [{symbol:"TVC:US02Y", position:"SameScale"}]
   });
-  chartInstances.push(ch);
+
+  mountTV("tv-dxy", {symbol:"TVC:DXY"});
+  mountTV("tv-m2", {symbol:"FRED:M2SL"});
+  mountTV("tv-gold", {symbol:"OANDA:XAUUSD"});
+  mountTV("tv-wti", {symbol:"NYMEX:CL1!"});
+  mountTV("tv-copper", {symbol:"COMEX:HG1!"});
+
+  mountTV("tv-nasdaq", {symbol:"NASDAQ:IXIC", hide_top_toolbar:false, withdateranges:true});
+  mountTV("tv-dow", {symbol:"DJ:DJI", hide_top_toolbar:false, withdateranges:true});
+  mountTV("tv-kospi", {symbol:"KRX:KOSPI", hide_top_toolbar:false, withdateranges:true});
+  mountTV("tv-vix", {symbol:"CBOE:VIX", hide_top_toolbar:false, withdateranges:true});
 }
 
-makeRates();
-makeLine("dxyChart",sample.dxy,"DXY");
-makeLine("m2Chart",sample.m2,"M2");
-makeLine("goldChart",sample.gold,"Gold");
-makeLine("wtiChart",sample.wti,"WTI");
-makeLine("copperChart",sample.copper,"Copper");
-makeLine("nasdaqChart",sample.nasdaq,"NASDAQ");
-makeLine("dowChart",sample.dow,"Dow Jones");
-makeLine("kospiChart",sample.kospi,"KOSPI");
-makeLine("vixChart",sample.vix,"VIX");
+mountAllWidgets();
 
 const strengthData=[
   ["반도체","92"],["광통신","88"],["소프트웨어","84"],["전력설비","79"],["금융","72"],["에너지","68"]
@@ -109,13 +103,17 @@ document.querySelectorAll(".nav-btn").forEach(btn=>{
 
 document.getElementById("today").textContent=new Intl.DateTimeFormat("ko-KR",{year:"numeric",month:"long",day:"numeric",weekday:"short"}).format(new Date());
 
+const savedTheme=localStorage.getItem("bj-theme") || "dark";
+document.body.classList.toggle("dark", savedTheme==="dark");
+document.getElementById("themeToggle").textContent=savedTheme==="dark"?"라이트 모드":"다크 모드";
+
 document.getElementById("themeToggle").addEventListener("click",()=>{
-  document.body.classList.toggle("dark");
-  document.getElementById("themeToggle").textContent=document.body.classList.contains("dark")?"라이트 모드":"다크 모드";
-  localStorage.setItem("bj-theme",document.body.classList.contains("dark")?"dark":"light");
-  location.reload();
+  const next=document.body.classList.contains("dark")?"light":"dark";
+  localStorage.setItem("bj-theme",next);
+  document.body.classList.toggle("dark",next==="dark");
+  document.getElementById("themeToggle").textContent=next==="dark"?"라이트 모드":"다크 모드";
+  mountAllWidgets();
 });
-if(localStorage.getItem("bj-theme")==="dark") document.body.classList.add("dark");
 
 function load(k,f){try{return JSON.parse(localStorage.getItem(k))||f}catch{return f}}
 function save(k,v){localStorage.setItem(k,JSON.stringify(v))}
@@ -132,12 +130,23 @@ function renderJournal(){
   });
 }
 document.getElementById("saveJournal").addEventListener("click",()=>{
-  const ticker=jTicker.value.trim().toUpperCase(),reason=jReason.value.trim();
+  const ticker=document.getElementById("jTicker").value.trim().toUpperCase();
+  const reason=document.getElementById("jReason").value.trim();
   if(!ticker||!reason)return alert("티커와 진입 근거를 입력하세요.");
   const items=load("bj-journal-v2",[]);
-  items.push({ticker,side:jSide.value,entry:jEntry.value,exit:jExit.value,stop:jStop.value,risk:jRisk.value,reason,review:jReview.value,date:new Date().toLocaleString("ko-KR")});
+  items.push({
+    ticker,
+    side:document.getElementById("jSide").value,
+    entry:document.getElementById("jEntry").value,
+    exit:document.getElementById("jExit").value,
+    stop:document.getElementById("jStop").value,
+    risk:document.getElementById("jRisk").value,
+    reason,
+    review:document.getElementById("jReview").value,
+    date:new Date().toLocaleString("ko-KR")
+  });
   save("bj-journal-v2",items);
-  [jTicker,jEntry,jExit,jStop,jRisk,jReason,jReview].forEach(x=>x.value="");
+  ["jTicker","jEntry","jExit","jStop","jRisk","jReason","jReview"].forEach(id=>document.getElementById(id).value="");
   renderJournal();
 });
 renderJournal();
@@ -155,15 +164,23 @@ const tabs=document.getElementById("sectorTabs");
 const sel=document.getElementById("sectorSelect");
 sectors.filter(x=>x!=="전체").forEach(x=>sel.innerHTML+=`<option>${x}</option>`);
 sectors.forEach(sec=>{
-  const b=document.createElement("button");b.className="sector-tab"+(sec==="전체"?" active":"");b.textContent=sec;
-  b.onclick=()=>{activeSector=sec;document.querySelectorAll(".sector-tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");renderWatch()};
+  const b=document.createElement("button");
+  b.className="sector-tab"+(sec==="전체"?" active":"");
+  b.textContent=sec;
+  b.onclick=()=>{
+    activeSector=sec;
+    document.querySelectorAll(".sector-tab").forEach(x=>x.classList.remove("active"));
+    b.classList.add("active");
+    renderWatch();
+  };
   tabs.appendChild(b);
 });
 
 function renderWatch(){
   const items=load("bj-watch-v2",defaultWatch);
   const filtered=activeSector==="전체"?items:items.filter(x=>x.sector===activeSector);
-  const wrap=document.getElementById("watchList");wrap.innerHTML=filtered.length?"":"<p>해당 섹터에 등록된 종목이 없습니다.</p>";
+  const wrap=document.getElementById("watchList");
+  wrap.innerHTML=filtered.length?"":"<p>해당 섹터에 등록된 종목이 없습니다.</p>";
   filtered.forEach(item=>{
     const div=document.createElement("div");div.className="watch-item";
     div.innerHTML=`<span>${item.sector}</span><div><strong>${item.ticker}</strong><span>${item.name}</span></div><button class="remove-btn">삭제</button>`;
@@ -176,20 +193,24 @@ function renderWatch(){
     wrap.appendChild(div);
   });
 }
+
 document.getElementById("addWatch").addEventListener("click",()=>{
-  const ticker=watchTicker.value.trim().toUpperCase(),name=watchName.value.trim();
+  const ticker=document.getElementById("watchTicker").value.trim().toUpperCase();
+  const name=document.getElementById("watchName").value.trim();
   if(!ticker||!name)return alert("티커와 설명을 입력하세요.");
   const items=load("bj-watch-v2",defaultWatch);
-  items.push({sector:sectorSelect.value,ticker,name});
+  items.push({sector:document.getElementById("sectorSelect").value,ticker,name});
   save("bj-watch-v2",items);
-  watchTicker.value="";watchName.value="";renderWatch();
+  document.getElementById("watchTicker").value="";
+  document.getElementById("watchName").value="";
+  renderWatch();
 });
 renderWatch();
 
 document.getElementById("buildPrompt").addEventListener("click",()=>{
-  const q=aiQuestion.value.trim();
+  const q=document.getElementById("aiQuestion").value.trim();
   if(!q)return alert("분석할 질문을 입력하세요.");
-  promptOutput.textContent=`너는 내 개인 투자 리서치 애널리스트다.
+  document.getElementById("promptOutput").textContent=`너는 내 개인 투자 리서치 애널리스트다.
 
 내 투자 성향:
 - 추세추종과 눌림목 매매를 선호한다.
@@ -214,6 +235,10 @@ ${q}
 });
 
 document.getElementById("copyPrompt").addEventListener("click",async()=>{
-  try{await navigator.clipboard.writeText(promptOutput.textContent);alert("복사했습니다.");}
-  catch{alert("복사에 실패했습니다.");}
+  try{
+    await navigator.clipboard.writeText(document.getElementById("promptOutput").textContent);
+    alert("복사했습니다.");
+  }catch{
+    alert("복사에 실패했습니다.");
+  }
 });
