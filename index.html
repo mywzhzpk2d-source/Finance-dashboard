@@ -3,198 +3,310 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="theme-color" content="#090d12" />
-  <title>BJ Market Terminal</title>
+  <title>BJ Market Terminal v4</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body class="dark">
-  <div class="app">
-    <aside class="sidebar">
-      <div class="brand">
-        <div class="brand-logo">BJ</div>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brand-logo">BJ</div>
+      <div><h1>Market Terminal</h1><p>Personal Investment OS</p></div>
+    </div>
+
+    <nav>
+      <button class="nav-btn active" data-page="macro">Macro 분석</button>
+      <button class="nav-btn" data-page="journal">매매일지</button>
+      <button class="nav-btn" data-page="watchlist">관심종목</button>
+      <button class="nav-btn" data-page="ai">AI Analyst</button>
+    </nav>
+
+    <div class="sidebar-bottom">
+      <div class="status-row"><span class="status-dot"></span><span>TradingView connected</span></div>
+    </div>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div><p class="eyebrow">PERSONAL MARKET INTELLIGENCE</p><h2 id="pageTitle">Macro 분석</h2></div>
+      <div id="today" class="date-badge"></div>
+    </header>
+
+    <section id="macro" class="page active">
+      <div class="hero">
         <div>
-          <h1>Market Terminal</h1>
-          <p>Personal Investment OS</p>
+          <span class="tag">LIVE MARKET DASHBOARD</span>
+          <h3>금리 · 유동성 · 원자재 · 위험자산을 한 화면에서 본다.</h3>
+          <p>각 차트는 TradingView 위젯의 지정 심볼을 직접 사용합니다.</p>
         </div>
       </div>
 
-      <nav>
-        <button class="nav-btn active" data-page="macro">Macro 분석</button>
-        <button class="nav-btn" data-page="journal">매매일지</button>
-        <button class="nav-btn" data-page="watchlist">관심종목</button>
-        <button class="nav-btn" data-page="ai">AI Analyst</button>
-      </nav>
-
-      <div class="sidebar-bottom">
-        <div class="status-row">
-          <span class="status-dot live"></span>
-          <span>TradingView data</span>
+      <section class="section-block">
+        <div class="section-title-row">
+          <div><span class="section-kicker">RATES</span><h3>미국 국채 금리</h3></div>
+          <span class="subtle">US 10Y / US 2Y 비교</span>
         </div>
-        <button id="themeToggle" class="secondary-btn full">라이트 모드</button>
+
+        <div class="chart-card rate-grid">
+          <div class="rate-chart">
+            <div class="chart-label">US 10Y Treasury Yield <span>TVC:US10Y</span></div>
+            <div class="tv-box">
+              <div class="tradingview-widget-container">
+                <div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                {
+                  "autosize": true,
+                  "symbol": "TVC:US10Y",
+                  "interval": "D",
+                  "timezone": "exchange",
+                  "theme": "dark",
+                  "style": "1",
+                  "locale": "en",
+                  "hide_side_toolbar": true,
+                  "hide_top_toolbar": false,
+                  "allow_symbol_change": false,
+                  "save_image": false,
+                  "withdateranges": true,
+                  "hide_volume": true
+                }
+                </script>
+              </div>
+            </div>
+          </div>
+
+          <div class="rate-chart">
+            <div class="chart-label">US 2Y Treasury Yield <span>TVC:US02Y</span></div>
+            <div class="tv-box">
+              <div class="tradingview-widget-container">
+                <div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                {
+                  "autosize": true,
+                  "symbol": "TVC:US02Y",
+                  "interval": "D",
+                  "timezone": "exchange",
+                  "theme": "dark",
+                  "style": "1",
+                  "locale": "en",
+                  "hide_side_toolbar": true,
+                  "hide_top_toolbar": false,
+                  "allow_symbol_change": false,
+                  "save_image": false,
+                  "withdateranges": true,
+                  "hide_volume": true
+                }
+                </script>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="chart-card spread-card">
+          <div class="spread-head">
+            <div>
+              <div class="chart-label">10Y–2Y Yield Spread <span>FRED DGS10 − DGS2</span></div>
+              <p>미국 10년물 금리에서 2년물 금리를 뺀 실제 일별 데이터입니다. 0% 아래는 장단기 금리 역전 구간입니다.</p>
+            </div>
+            <div id="spreadLatest" class="spread-latest">불러오는 중…</div>
+          </div>
+          <div class="spread-canvas-wrap"><canvas id="spreadChart"></canvas></div>
+          <div id="spreadStatus" class="spread-status">FRED 데이터를 불러오는 중입니다.</div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="section-title-row">
+          <div><span class="section-kicker">LIQUIDITY & COMMODITIES</span><h3>핵심 매크로 보조지표</h3></div>
+        </div>
+
+        <div class="mini-grid">
+          <div class="chart-card mini-tv">
+            <div class="chart-label">Dollar Index <span>TVC:DXY</span></div>
+            <div class="tv-box">
+              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                {"autosize":true,"symbol":"TVC:DXY","interval":"D","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":true,"allow_symbol_change":false,"save_image":false,"hide_volume":true}
+                </script>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-card mini-tv">
+            <div class="chart-label">M2 Money Supply <span>FRED:M2SL</span></div>
+            <div class="tv-box">
+              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                {"autosize":true,"symbol":"FRED:M2SL","interval":"M","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":true,"allow_symbol_change":false,"save_image":false,"hide_volume":true}
+                </script>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-card mini-tv">
+            <div class="chart-label">Gold <span>OANDA:XAUUSD</span></div>
+            <div class="tv-box">
+              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                {"autosize":true,"symbol":"OANDA:XAUUSD","interval":"D","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":true,"allow_symbol_change":false,"save_image":false,"hide_volume":true}
+                </script>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-card mini-tv">
+            <div class="chart-label">WTI Crude Oil <span>NYMEX:CL1!</span></div>
+            <div class="tv-box">
+              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                {"autosize":true,"symbol":"NYMEX:CL1!","interval":"D","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":true,"allow_symbol_change":false,"save_image":false,"hide_volume":true}
+                </script>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-card mini-tv">
+            <div class="chart-label">Copper <span>COMEX:HG1!</span></div>
+            <div class="tv-box">
+              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                {"autosize":true,"symbol":"COMEX:HG1!","interval":"D","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":true,"allow_symbol_change":false,"save_image":false,"hide_volume":true}
+                </script>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <div class="section-title-row">
+          <div><span class="section-kicker">RISK ASSETS</span><h3>주요 지수와 변동성</h3></div>
+        </div>
+
+        <div class="index-grid">
+          <div class="chart-card index-tv">
+            <div class="chart-label">NASDAQ Composite <span>NASDAQ:IXIC</span></div>
+            <div class="tv-box">
+              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                {"autosize":true,"symbol":"NASDAQ:IXIC","interval":"D","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":false,"allow_symbol_change":false,"save_image":false,"withdateranges":true,"hide_volume":true}
+                </script>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-card index-tv">
+            <div class="chart-label">Dow Jones <span>DJ:DJI</span></div>
+            <div class="tv-box">
+              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                {"autosize":true,"symbol":"DJ:DJI","interval":"D","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":false,"allow_symbol_change":false,"save_image":false,"withdateranges":true,"hide_volume":true}
+                </script>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-card index-tv">
+            <div class="chart-label">KOSPI <span>KRX:KOSPI</span></div>
+            <div class="tv-box">
+              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                {"autosize":true,"symbol":"KRX:KOSPI","interval":"D","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":false,"allow_symbol_change":false,"save_image":false,"withdateranges":true,"hide_volume":true}
+                </script>
+              </div>
+            </div>
+          </div>
+
+          <div class="chart-card index-tv">
+            <div class="chart-label">VIX <span>CBOE:VIX</span></div>
+            <div class="tv-box">
+              <div class="tradingview-widget-container"><div class="tradingview-widget-container__widget"></div>
+                <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js" async>
+                {"autosize":true,"symbol":"CBOE:VIX","interval":"D","timezone":"exchange","theme":"dark","style":"1","locale":"en","hide_side_toolbar":true,"hide_top_toolbar":false,"allow_symbol_change":false,"save_image":false,"withdateranges":true,"hide_volume":true}
+                </script>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="ranking-grid">
+        <div class="panel">
+          <div class="panel-head"><div><span class="section-kicker">MARKET STRENGTH</span><h3>시장강도 순위</h3></div></div>
+          <div id="strengthList" class="ranking-list"></div>
+        </div>
+        <div class="panel">
+          <div class="panel-head"><div><span class="section-kicker">TURNOVER</span><h3>거래대금 순위</h3></div></div>
+          <div id="turnoverList" class="ranking-list"></div>
+        </div>
+      </section>
+    </section>
+
+    <section id="journal" class="page">
+      <div class="section-intro"><span class="section-kicker">TRADING JOURNAL</span><h3>매매일지</h3><p>진입과 복기를 기록합니다.</p></div>
+      <div class="panel">
+        <div class="form-grid">
+          <input id="jTicker" placeholder="티커">
+          <select id="jSide"><option>매수</option><option>매도</option><option>관망</option></select>
+          <input id="jEntry" placeholder="진입가">
+          <input id="jExit" placeholder="청산가">
+          <input id="jStop" placeholder="손절가">
+          <input id="jRisk" placeholder="허용 리스크">
+        </div>
+        <textarea id="jReason" placeholder="진입 근거"></textarea>
+        <textarea id="jReview" placeholder="복기"></textarea>
+        <button id="saveJournal" class="primary-btn">일지 저장</button>
+        <div id="journalList" class="data-list"></div>
       </div>
-    </aside>
+    </section>
 
-    <main class="main">
-      <header class="topbar">
-        <div>
-          <p class="eyebrow">PERSONAL MARKET INTELLIGENCE</p>
-          <h2 id="pageTitle">Macro 분석</h2>
+    <section id="watchlist" class="page">
+      <div class="section-intro">
+        <span class="section-kicker">WATCHLIST</span>
+        <h3>섹터별 관심종목</h3>
+        <p>섹터 자체도 직접 추가·이름 변경·삭제할 수 있습니다.</p>
+      </div>
+
+      <div class="sector-manager panel">
+        <div class="manager-row">
+          <input id="newSectorName" placeholder="새 섹터 이름 예: 로봇">
+          <button id="addSector" class="primary-btn no-margin">섹터 추가</button>
         </div>
-        <div class="date-badge" id="today"></div>
-      </header>
-
-      <section id="macro" class="page active">
-        <div class="hero">
-          <div>
-            <span class="tag">LIVE MARKET DASHBOARD</span>
-            <h3>금리 · 유동성 · 원자재 · 위험자산을 한 화면에서 본다.</h3>
-            <p>TradingView 위젯을 이용해 실제 시장 데이터를 표시합니다. 일부 거래소 데이터는 TradingView의 데이터 제공 정책에 따라 지연될 수 있습니다.</p>
-          </div>
-          <div class="regime-card">
-            <span>분석 모드</span>
-            <strong>Live market monitoring</strong>
-          </div>
+        <div class="manager-row">
+          <select id="manageSectorSelect"></select>
+          <input id="renameSectorName" placeholder="변경할 이름">
+          <button id="renameSector" class="secondary-btn">이름 변경</button>
+          <button id="deleteSector" class="danger-btn">섹터 삭제</button>
         </div>
+      </div>
 
-        <section class="section-block">
-          <div class="section-title-row">
-            <div>
-              <span class="section-kicker">RATES</span>
-              <h3>미국 국채 금리</h3>
-            </div>
-            <span class="subtle">US 10Y + US 2Y 비교</span>
-          </div>
+      <div class="sector-tabs" id="sectorTabs"></div>
 
-          <div class="chart-card tv-card rates-card">
-            <div class="card-note">
-              <strong>10Y / 2Y</strong>
-              <span>현재는 실제 금리 두 시계열을 겹쳐 표시합니다. 스프레드 음영은 별도 데이터 연결 단계에서 추가합니다.</span>
-            </div>
-            <div id="tv-rates" class="tv-widget tall"></div>
-          </div>
-        </section>
-
-        <section class="section-block">
-          <div class="section-title-row">
-            <div>
-              <span class="section-kicker">LIQUIDITY & COMMODITIES</span>
-              <h3>핵심 매크로 보조지표</h3>
-            </div>
-          </div>
-
-          <div class="mini-grid">
-            <div class="chart-card mini-tv"><div class="chart-label">Dollar Index <span>DXY</span></div><div id="tv-dxy" class="tv-widget"></div></div>
-            <div class="chart-card mini-tv"><div class="chart-label">M2 Money Supply <span>M2SL</span></div><div id="tv-m2" class="tv-widget"></div></div>
-            <div class="chart-card mini-tv"><div class="chart-label">Gold <span>XAUUSD</span></div><div id="tv-gold" class="tv-widget"></div></div>
-            <div class="chart-card mini-tv"><div class="chart-label">WTI Crude <span>CL1!</span></div><div id="tv-wti" class="tv-widget"></div></div>
-            <div class="chart-card mini-tv"><div class="chart-label">Copper <span>HG1!</span></div><div id="tv-copper" class="tv-widget"></div></div>
-          </div>
-        </section>
-
-        <section class="section-block">
-          <div class="section-title-row">
-            <div>
-              <span class="section-kicker">RISK ASSETS</span>
-              <h3>주요 지수와 변동성</h3>
-            </div>
-          </div>
-
-          <div class="index-grid">
-            <div class="chart-card index-tv"><div class="chart-label">NASDAQ Composite <span>IXIC</span></div><div id="tv-nasdaq" class="tv-widget"></div></div>
-            <div class="chart-card index-tv"><div class="chart-label">Dow Jones <span>DJI</span></div><div id="tv-dow" class="tv-widget"></div></div>
-            <div class="chart-card index-tv"><div class="chart-label">KOSPI <span>KOSPI</span></div><div id="tv-kospi" class="tv-widget"></div></div>
-            <div class="chart-card index-tv"><div class="chart-label">VIX <span>VIX</span></div><div id="tv-vix" class="tv-widget"></div></div>
-          </div>
-        </section>
-
-        <section class="ranking-grid">
-          <div class="panel">
-            <div class="panel-head">
-              <div>
-                <span class="section-kicker">MARKET STRENGTH</span>
-                <h3>시장강도 순위</h3>
-              </div>
-              <span class="manual-badge">LOGIC NEXT</span>
-            </div>
-            <div id="strengthList" class="ranking-list"></div>
-          </div>
-
-          <div class="panel">
-            <div class="panel-head">
-              <div>
-                <span class="section-kicker">TURNOVER</span>
-                <h3>거래대금 순위</h3>
-              </div>
-              <span class="manual-badge">LOGIC NEXT</span>
-            </div>
-            <div id="turnoverList" class="ranking-list"></div>
-          </div>
-        </section>
-      </section>
-
-      <section id="journal" class="page">
-        <div class="section-intro">
-          <span class="section-kicker">TRADING JOURNAL</span>
-          <h3>매매일지</h3>
-          <p>진입 전에 근거를 남기고, 종료 후 틀린 지점과 잘한 점을 복기합니다.</p>
+      <div class="panel">
+        <div class="watch-form">
+          <select id="sectorSelect"></select>
+          <input id="watchTicker" placeholder="티커 예: COHR">
+          <input id="watchName" placeholder="종목명 또는 투자 논리">
+          <button id="addWatch" class="primary-btn no-margin">추가</button>
         </div>
+        <div id="watchList" class="watch-list"></div>
+      </div>
+    </section>
 
-        <div class="panel">
-          <div class="form-grid">
-            <input id="jTicker" placeholder="티커" />
-            <select id="jSide"><option>매수</option><option>매도</option><option>관망</option></select>
-            <input id="jEntry" type="number" step="0.01" placeholder="진입가" />
-            <input id="jExit" type="number" step="0.01" placeholder="청산가" />
-            <input id="jStop" type="number" step="0.01" placeholder="손절가" />
-            <input id="jRisk" placeholder="허용 리스크 예: -2%" />
-          </div>
-          <textarea id="jReason" placeholder="진입 근거: 추세, 이평선, 거래량, 매크로, 수급 등"></textarea>
-          <textarea id="jReview" placeholder="복기: 잘한 점, 틀린 점, 다음에 바꿀 점"></textarea>
-          <button id="saveJournal" class="primary-btn">일지 저장</button>
-          <div id="journalList" class="data-list"></div>
-        </div>
-      </section>
-
-      <section id="watchlist" class="page">
-        <div class="section-intro">
-          <span class="section-kicker">WATCHLIST</span>
-          <h3>섹터별 관심종목</h3>
-          <p>카테고리를 선택하고 종목을 추가해 섹터별로 관리합니다.</p>
-        </div>
-
-        <div class="sector-tabs" id="sectorTabs"></div>
-
-        <div class="panel">
-          <div class="watch-form">
-            <select id="sectorSelect"></select>
-            <input id="watchTicker" placeholder="티커 예: COHR" />
-            <input id="watchName" placeholder="종목명 또는 투자 논리" />
-            <button id="addWatch" class="primary-btn no-margin">추가</button>
-          </div>
-          <div id="watchList" class="watch-list"></div>
-        </div>
-      </section>
-
-      <section id="ai" class="page">
-        <div class="section-intro">
-          <span class="section-kicker">AI ANALYST</span>
-          <h3>개인 투자 기준 기반 AI 분석</h3>
-          <p>현재 버전은 네 투자 원칙을 포함한 분석 프롬프트를 생성합니다.</p>
-        </div>
-
-        <div class="panel">
-          <textarea id="aiQuestion" placeholder="예: 현재 2년물·10년물 금리와 나스닥 추세를 기반으로 시장 레짐을 분석해줘."></textarea>
-          <button id="buildPrompt" class="primary-btn">분석 프롬프트 생성</button>
-          <pre id="promptOutput" class="prompt-box">질문을 입력하면 분석 프롬프트가 생성됩니다.</pre>
-          <button id="copyPrompt" class="secondary-btn">프롬프트 복사</button>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <script src="script.js"></script>
+    <section id="ai" class="page">
+      <div class="section-intro"><span class="section-kicker">AI ANALYST</span><h3>개인 투자 기준 기반 AI 분석</h3></div>
+      <div class="panel">
+        <textarea id="aiQuestion" placeholder="분석 질문 입력"></textarea>
+        <button id="buildPrompt" class="primary-btn">분석 프롬프트 생성</button>
+        <pre id="promptOutput" class="prompt-box">질문을 입력하면 분석 프롬프트가 생성됩니다.</pre>
+        <button id="copyPrompt" class="secondary-btn">프롬프트 복사</button>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<script src="script.js"></script>
 </body>
 </html>
