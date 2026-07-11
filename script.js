@@ -83,7 +83,8 @@ async function loadMarketData(){
 
     const isSeed=db.source_mode==="seed";
     $("dataStatus").textContent=isSeed?"초기 샘플 데이터":"자동 갱신 데이터";
-    $("statusDot").classList.add(isSeed?"":"ok");
+    $("statusDot").classList.remove("ok","error");
+    if(!isSeed) $("statusDot").classList.add("ok");
     $("updatedAt").textContent=db.generated_at ? `데이터 갱신: ${new Date(db.generated_at).toLocaleString("ko-KR")}` : "";
 
     const S=(id)=>normalizeSeries(db.series?.[id]?.data||[]);
@@ -171,6 +172,7 @@ async function loadMarketData(){
   }catch(err){
     console.error(err);
     $("dataStatus").textContent="데이터 오류";
+    $("statusDot").classList.remove("ok");
     $("statusDot").classList.add("error");
     $("updatedAt").textContent="market-data.json을 확인하세요.";
     $("spreadStatus").textContent="데이터를 불러오지 못했습니다.";

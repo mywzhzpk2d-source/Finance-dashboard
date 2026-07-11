@@ -47,3 +47,6 @@ Actions → Update market data → Run workflow
 ## 참고
 최초 업로드 직후에는 화면이 비지 않도록 샘플 데이터가 들어 있습니다.
 GitHub Action 실행 후 자동 데이터로 교체됩니다.
+
+참고: KOSPI는 FRED에 표준 시리즈로 없어서 Yahoo Finance(^KS11)에서 대신 받아옵니다.
+Yahoo 쪽 요청이 일시적으로 막히면 그 회차만 실패하고, 이전에 받아둔 데이터가 그대로 유지됩니다.

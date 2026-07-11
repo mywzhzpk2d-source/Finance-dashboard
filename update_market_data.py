@@ -1,5 +1,5 @@
 from __future__ import annotations
-import csv, io, json, time, urllib.request
+import csv, io, json, time, urllib.request, urllib.parse
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -15,6 +15,13 @@ SERIES = {
     "GOLDAMGBD228NLBM": ("Gold", "USD/oz"),
     "PCOPPUSDM": ("Copper", "USD/mt"),
     "DTWEXBGS": ("Trade Weighted U.S. Dollar Index: Broad", "Index"),
+}
+
+# KOSPI is not published as a standard FRED series, so it is pulled from
+# Yahoo Finance's public chart endpoint instead. Any other series_id added
+# here will use Yahoo Finance instead of FRED in the same way.
+YAHOO_SOURCES = {
+    "KOSPI": "^KS11",
 }
 
 def download(series_id: str) -> list[dict]:
@@ -40,6 +47,29 @@ def download(series_id: str) -> list[dict]:
 
     return rows[-1600:]
 
+def download_yahoo(symbol: str) -> list[dict]:
+    encoded = urllib.parse.quote(symbol, safe="")
+    url = f"https://query1.finance.yahoo.com/v8/finance/chart/{encoded}?range=10y&interval=1d"
+    req = urllib.request.Request(
+        url,
+        headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) BJ-Market-Terminal/1.0"}
+    )
+    with urllib.request.urlopen(req, timeout=30) as response:
+        payload = json.loads(response.read().decode("utf-8"))
+
+    result = payload["chart"]["result"][0]
+    timestamps = result["timestamp"]
+    closes = result["indicators"]["quote"][0]["close"]
+
+    rows = []
+    for ts, close in zip(timestamps, closes):
+        if close is None:
+            continue
+        date = datetime.fromtimestamp(ts, tz=timezone.utc).strftime("%Y-%m-%d")
+        rows.append({"date": date, "value": round(float(close), 3)})
+
+    return rows[-1600:]
+
 def main() -> None:
     output = {
         "generated_at": datetime.now(timezone.utc).isoformat(),
@@ -49,7 +79,10 @@ def main() -> None:
 
     for series_id, (name, unit) in SERIES.items():
         try:
-            data = download(series_id)
+            if series_id in YAHOO_SOURCES:
+                data = download_yahoo(YAHOO_SOURCES[series_id])
+            else:
+                data = download(series_id)
             if not data:
                 raise RuntimeError("empty data")
             output["series"][series_id] = {
