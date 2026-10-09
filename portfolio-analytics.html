@@ -5,24 +5,36 @@
 <title>Portfolio Analytics | BJ Market Terminal</title>
 <style>
 :root{color-scheme:dark;--bg:#090d12;--card:#111720;--border:#293542;--text:#eef2f7;--muted:#a3aebe;--blue:#63aaf4;--teal:#4dc9ae;--amber:#eab56c;--violet:#b5a0ef}
-*{box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;margin:0}main{max-width:1180px;margin:auto;padding:24px 16px 70px}a{color:#9bc8ff}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}.top h1{margin:8px 0 4px;font-size:clamp(24px,4vw,35px)}.muted{color:var(--muted)}.eyebrow{letter-spacing:.14em;color:var(--muted);font-weight:700;font-size:11px}.badge{padding:7px 11px;border:1px solid #a87639;color:#f1bf7b;border-radius:30px;font-size:12px;white-space:nowrap}.notice{margin-top:21px;border:1px solid #725734;background:#292116;padding:14px 17px;border-radius:12px;color:#f0cda0;font-size:13px;line-height:1.7}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,245px),1fr));gap:14px}.card{border:1px solid var(--border);border-radius:18px;background:var(--card);padding:20px;min-width:0}.section{margin-top:29px}.section h2{margin:0 0 14px;font-size:20px}.stat{font-size:clamp(24px,3vw,34px);font-weight:750;margin:12px 0 5px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.small{font-size:12px;color:var(--muted);line-height:1.7}.card h3{font-size:15px;margin:0 0 16px}.donut{width:min(196px,85%);aspect-ratio:1;border-radius:50%;margin:15px auto 20px;position:relative}.donut::after{content:"";position:absolute;inset:28px;background:var(--card);border-radius:50%}.legend{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--border);padding:9px 0;font-size:13px}.swatch{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:7px}.row{display:flex;justify-content:space-between;align-items:center;gap:12px}.bar{height:10px;background:#283240;border-radius:8px;overflow:hidden;margin:8px 0 15px}.bar>div{height:100%;background:var(--blue);border-radius:8px}.bar.teal>div{background:var(--teal)}.bar.amber>div{background:var(--amber)}.formrow{margin:18px 0}.formrow label{font-size:13px}input[type=range]{width:100%;accent-color:var(--blue);margin:12px 0}input[type=number]{width:100%;background:#0c1119;color:var(--text);border:1px solid #405064;padding:12px 14px;border-radius:10px;font-size:17px}.big{font-weight:780;font-size:clamp(23px,3vw,32px);margin:14px 0}table{width:100%;border-collapse:collapse;font-size:13px}th,td{border-bottom:1px solid var(--border);padding:12px 6px;text-align:left}th:last-child,td:last-child{text-align:right}.dim{opacity:.7}button{background:#dbe8f8;color:#101722;font-weight:700;border:0;border-radius:10px;padding:12px 16px;cursor:pointer}.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.pill{border:1px solid #43556b;padding:7px 9px;border-radius:20px;font-size:12px;color:#bbcad8}
+*{box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;margin:0}main{max-width:1180px;margin:auto;padding:24px 16px 70px}a{color:#9bc8ff}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}.top h1{margin:8px 0 4px;font-size:clamp(24px,4vw,35px)}.muted{color:var(--muted)}.eyebrow{letter-spacing:.14em;color:var(--muted);font-weight:700;font-size:11px}.badge{padding:7px 11px;border:1px solid #a87639;color:#f1bf7b;border-radius:30px;font-size:12px;white-space:nowrap}.notice{margin-top:21px;border:1px solid #725734;background:#292116;padding:14px 17px;border-radius:12px;color:#f0cda0;font-size:13px;line-height:1.7}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,245px),1fr));gap:14px}.card{border:1px solid var(--border);border-radius:18px;background:var(--card);padding:20px;min-width:0}.section{margin-top:29px}.section h2{margin:0 0 14px;font-size:20px}.stat{font-size:clamp(23px,3vw,34px);font-weight:750;margin:12px 0 5px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.small{font-size:12px;color:var(--muted);line-height:1.7}.card h3{font-size:15px;margin:0 0 16px}.donut{width:min(196px,85%);aspect-ratio:1;border-radius:50%;margin:15px auto 20px;position:relative}.donut::after{content:"";position:absolute;inset:28px;background:var(--card);border-radius:50%}.legend{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--border);padding:9px 0;font-size:13px}.swatch{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:7px}.row{display:flex;justify-content:space-between;align-items:center;gap:12px}.bar{height:10px;background:#283240;border-radius:8px;overflow:hidden;margin:8px 0 15px}.bar>div{height:100%;background:var(--blue);border-radius:8px}.bar.teal>div{background:var(--teal)}.formrow{margin:18px 0}.formrow label{font-size:13px}input[type=range]{width:100%;accent-color:var(--blue);margin:12px 0}input[type=number]{width:100%;background:#0c1119;color:var(--text);border:1px solid #405064;padding:12px 14px;border-radius:10px;font-size:17px}.big{font-weight:780;font-size:clamp(23px,3vw,32px);margin:14px 0}table{width:100%;border-collapse:collapse;font-size:13px}th,td{border-bottom:1px solid var(--border);padding:12px 6px;text-align:left}th:last-child,td:last-child{text-align:right}.dim{opacity:.7}button{background:#dbe8f8;color:#101722;font-weight:700;border:0;border-radius:10px;padding:12px 16px;cursor:pointer}.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.pill{border:1px solid #43556b;padding:7px 9px;border-radius:20px;font-size:12px;color:#bbcad8}.connection{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.connection strong{font-size:14px}.connection p{margin:6px 0 0}.connection[data-status="ok"]{border-color:#286853}.connection[data-status="error"]{border-color:#805332}.metric-note{margin-top:9px;color:var(--muted);font-size:12px;line-height:1.5}.metric-value{font-size:clamp(22px,3vw,31px);font-weight:750;margin-top:11px;font-variant-numeric:tabular-nums}.metric-negative{color:#f49a98}.metric-label{font-size:13px;color:var(--muted)}.tablewrap{overflow-x:auto}td.status{text-align:right;min-width:120px}
+@media(max-width:600px){main{padding:20px 12px 60px}.card{padding:17px}.grid{gap:12px}}
 </style>
 </head>
 <body><main>
 <div class="top"><div><a href="./index.html">← Macro Dashboard 돌아가기</a><div class="eyebrow" style="margin-top:20px">BJ MARKET TERMINAL</div><h1>Portfolio Analytics</h1><div class="muted">자산배분 · 위험 기여도 · 포지션 사이징</div></div><span class="badge">DEMO · 계좌 미연동</span></div>
-<div class="notice"><strong>시뮬레이션 전용 화면</strong> — 금액·환율·보유 주식·위험 수치는 가상 데이터야. 토스증권 API와 연결되지 않았고, 실제 계좌정보는 포함되지 않아. 공개 GitHub Pages에는 실제 계좌 원본 데이터를 저장하면 안 돼.</div>
+<div class="notice"><strong>시뮬레이션 전용 화면</strong> — 자산 금액과 보유 종목은 가상 포트폴리오이며, 위험 지표는 AWS에서 과거 시장가격으로 계산한 가상 포트폴리오 분석 결과야. 토스증권 실제 계좌와 연결되지 않았어. 공개 GitHub Pages 및 이 API에는 실제 보유 내역이나 비밀키를 저장하지 마.</div>
+<section class="section"><div class="card connection" id="apiConnection" data-status="loading" role="status" aria-live="polite"><div><strong id="connectionTitle">AWS 분석 데이터 연결 중…</strong><p class="small" id="connectionDetail">HTTPS API에서 DEMO 위험 지표를 요청하고 있어.</p></div><button type="button" id="refreshApi">새로고침</button></div></section>
 <section class="section grid">
-<div class="card"><div class="small">총자산 (가상)</div><div class="stat">₩68,600,000</div><div class="small">USD/KRW 환율 가정 1,400</div></div>
-<div class="card"><div class="small">주식 투자 비중</div><div class="stat">64.29%</div><div class="small">₩44,100,000</div></div>
-<div class="card"><div class="small">손절가 기준 예상 손실</div><div class="stat">₩4,620,000</div><div class="small">총자산의 6.73% · 갭 손실 제외</div></div>
-<div class="card"><div class="small">SPY 기준 베타 / 샤프비율</div><div class="stat dim">— / —</div><div class="small">실제 과거 수익률 연결 후 산출</div></div>
+<div class="card"><div class="small">총자산 (가상)</div><div class="stat" id="demoTotal">₩68,600,000</div><div class="small">USD/KRW 환율 고정 가정 · 실시간 잔고 아님</div></div>
+<div class="card"><div class="small">주식 투자 비중 (가상)</div><div class="stat" id="equityPct">64.29%</div><div class="small" id="equityValue">₩44,100,000</div></div>
+<div class="card"><div class="small">손절가 기준 예상 손실 (별도 가정)</div><div class="stat">₩4,620,000</div><div class="small">총자산의 6.73% · 미갱신 예시 · 갭 손실 제외</div></div>
+<div class="card"><div class="small">SPY 기준 포트폴리오 베타 / 샤프비율</div><div class="stat" id="betaSharpe">— / —</div><div class="small">AWS 계산 결과 · 가상 포트폴리오</div></div>
 </section>
-<section class="section"><h2>자산배분</h2><div class="grid">
+<section class="section"><h2>AWS 위험 분석 지표</h2><div class="grid">
+<div class="card"><div class="metric-label">SPY 대비 베타</div><div class="metric-value" id="mBeta">—</div><div class="metric-note">시장수익률 변동에 대한 민감도</div></div>
+<div class="card"><div class="metric-label">연율화 변동성</div><div class="metric-value" id="mVol">—</div><div class="metric-note">과거 일별 수익률 표준편차 × √252</div></div>
+<div class="card"><div class="metric-label">샤프비율 · 연율화</div><div class="metric-value" id="mSharpe">—</div><div class="metric-note">무위험수익률 반영</div></div>
+<div class="card"><div class="metric-label">소르티노비율 · 연율화</div><div class="metric-value" id="mSortino">—</div><div class="metric-note">하방 변동성을 중심으로 평가</div></div>
+<div class="card"><div class="metric-label">1일 VaR · 95%</div><div class="metric-value" id="mVar">—</div><div class="metric-note" id="mVarKr">원화 환산 추정치 불러오는 중</div></div>
+<div class="card"><div class="metric-label">1일 CVaR · 95%</div><div class="metric-value" id="mCvar">—</div><div class="metric-note" id="mCvarKr">최악 5% 구간의 평균 손실</div></div>
+<div class="card"><div class="metric-label">최대 낙폭 (MDD)</div><div class="metric-value metric-negative" id="mMdd">—</div><div class="metric-note">가상 일별 고정비중 재조정 경로</div></div>
+<div class="card"><div class="metric-label">시장 데이터 기준일</div><div class="metric-value" id="mDate" style="font-size:22px">—</div><div class="metric-note" id="mPeriod">과거 가격 자료 기반 · 미래 예측 아님</div></div>
+</div><p class="small" style="margin-top:10px">위험 지표는 실제 거래 성과가 아닌 가상 포트폴리오를 과거 가격으로 분석한 수치야. 고정 환율·현금수익률 0%·일별 일정 비중 재조정을 가정하며 실제 매매비용, 환차손익, 급락·갭 위험은 반영하지 않아.</p></section>
+<section class="section"><h2>자산배분 (DEMO)</h2><div class="grid">
 <div class="card"><h3>주식 · 원화 현금 · 달러 현금</h3><div class="donut" id="assetChart"></div><div id="assetLegend"></div></div>
-<div class="card"><h3>통화별 노출</h3><div class="donut" id="currencyChart"></div><div id="currencyLegend"></div><p class="small">달러표시 주식도 달러 노출로 계산한 예시야.</p></div>
+<div class="card"><h3>통화별 노출</h3><div class="donut" id="currencyChart"></div><div id="currencyLegend"></div><p class="small">달러표시 주식도 달러 노출로 계산한 가상 예시야.</p></div>
 <div class="card"><h3>전체 자산 대비 종목별 비중</h3><div class="donut" id="positionChart"></div><div id="positionLegend"></div></div>
 </div></section>
-<section class="section"><h2>변동성 위험 기여도</h2><div class="card"><div class="small">252거래일 가상 수익률 시뮬레이션 결과</div><div id="contributions" style="margin-top:16px"></div><p class="small">위험 기여도는 보유비중과 다르며, 실제 변동성 추정 결과가 아니야.</p></div></section>
+<section class="section"><h2>변동성 위험 기여도</h2><div class="card"><div class="small" id="riskSource">AWS 과거가격 분석 결과 연결 중…</div><div id="contributions" style="margin-top:16px"><p class="small">값을 불러오는 중…</p></div><p class="small">각 종목이 포트폴리오 일별 수익률 분산에 기여하는 비율이야. 주식 보유비중과는 달라.</p></div></section>
 <section class="section"><h2>매매 위험 관리</h2><div class="grid">
 <div class="card"><h3>위험 예산 설정</h3><div class="formrow"><label for="capital">총자산 (KRW)</label><input type="number" id="capital" value="68600000" min="0" step="100000"></div>
 <div class="formrow"><div class="row"><label for="risk">한 거래당 위험 한도</label><strong id="riskValue">1.00%</strong></div><input type="range" id="risk" min="0.25" max="3" step="0.25" value="1"></div>
@@ -30,16 +42,83 @@
 <div class="formrow"><div class="row"><label for="cap">한 종목 최대 자산 비중</label><strong id="capValue">25%</strong></div><input type="range" id="cap" min="5" max="100" step="5" value="25"></div></div>
 <div class="card"><h3>계산 결과</h3><div class="small">이론상 최대 신규 매수 금액</div><div class="big" id="positionSize"></div><p class="small" id="positionWeight"></p><div class="row"><span>거래당 위험 예산</span><strong id="riskBudget"></strong></div><div class="row" style="margin-top:15px"><span>손절 시 추정 손실</span><strong id="stopLoss"></strong></div><p class="small" style="margin-top:20px">위험 예산 사용률</p><div class="bar teal"><div id="usage" style="width:0"></div></div><p class="small">손절가에 정확히 체결된다는 가정이야. 갭 하락, 환율 변동, 레버리지 ETF, 슬리피지, 이미 보유한 위험 노출은 별도로 고려해야 해.</p></div>
 </div></section>
-<section class="section"><h2>계좌 연동 및 고급 지표</h2><div class="card"><table><tr><th>항목</th><th>상태</th></tr><tr><td>원화·달러 예수금 / 보유 주식</td><td>DEMO</td></tr><tr><td>SPY 대비 베타</td><td>실제 가격 데이터 대기</td></tr><tr><td>Sharpe / Sortino</td><td>성과 이력 대기</td></tr><tr><td>VaR / CVaR / MDD</td><td>과거 수익률 대기</td></tr><tr><td>토스증권 API</td><td>허용 IP 등록 대기</td></tr><tr><td>접근 인증 · HTTPS</td><td>실계좌 연결 전 필요</td></tr></table><div class="pills"><span class="pill">SPY 벤치마크</span><span class="pill">KRW 기준 평가</span><span class="pill">읽기 전용 설계</span></div></div></section>
+<section class="section"><h2>계좌 연동 및 데이터 상태</h2><div class="card tablewrap"><table><tr><th>항목</th><th>상태</th></tr><tr><td>원화·달러 예수금 / 보유 주식</td><td class="status">DEMO</td></tr><tr><td>SPY 대비 베타</td><td class="status liveStatus">연결 중</td></tr><tr><td>Sharpe / Sortino</td><td class="status liveStatus">연결 중</td></tr><tr><td>VaR / CVaR / MDD</td><td class="status liveStatus">연결 중</td></tr><tr><td>토스증권 API</td><td class="status">미연동</td></tr><tr><td>AWS 전송 구간</td><td class="status">HTTPS · 공개 DEMO 전용</td></tr><tr><td>실계좌 접근 인증</td><td class="status">미구축</td></tr></table><div class="pills"><span class="pill">SPY 벤치마크</span><span class="pill">KRW 기준 평가</span><span class="pill">DEMO 데이터만 공개</span></div></div></section>
 </main>
 <script>
-const fmt=n=>Math.round(n).toLocaleString('ko-KR')+'원',colors=['#63aaf4','#4dc9ae','#eab56c','#b5a0ef'];
-function renderPie(chartId,legendId,items){const sum=items.reduce((s,v)=>s+v[1],0);let offset=0;const arcs=items.map((item,i)=>{const start=offset;offset+=item[1]/sum*100;return colors[i%colors.length]+' '+start+'% '+offset+'%'});document.getElementById(chartId).style.background='conic-gradient('+arcs.join(',')+')';document.getElementById(legendId).innerHTML=items.map((item,i)=>'<div class="legend"><span><span class="swatch" style="background:'+colors[i%colors.length]+'"></span>'+item[0]+'</span><strong>'+(item[1]/sum*100).toFixed(2)+'%</strong></div>').join('')}
-renderPie('assetChart','assetLegend',[['주식',44100000],['달러 현금',15400000],['원화 현금',9100000]]);
-renderPie('currencyChart','currencyLegend',[['USD 자산',59500000],['KRW 자산',9100000]]);
-renderPie('positionChart','positionLegend',[['SOXL',15400000],['MU',16800000],['COHR',11900000],['현금',24500000]]);
-const risks=[['SOXL',52.57],['MU',25.40],['COHR',22.03]];
-document.getElementById('contributions').innerHTML=risks.map(v=>'<div class="row"><span>'+v[0]+'</span><strong>'+v[1].toFixed(2)+'%</strong></div><div class="bar"><div style="width:'+v[1]+'%"></div></div>').join('');
-function recalc(){const capital=Math.max(0,Number(document.getElementById('capital').value)||0),risk=Number(document.getElementById('risk').value),stop=Number(document.getElementById('stop').value),cap=Number(document.getElementById('cap').value);const budget=capital*risk/100,position=Math.min(budget/(stop/100),capital*cap/100),loss=position*stop/100;document.getElementById('riskValue').textContent=risk.toFixed(2)+'%';document.getElementById('stopValue').textContent=stop+'%';document.getElementById('capValue').textContent=cap+'%';document.getElementById('positionSize').textContent=fmt(position);document.getElementById('positionWeight').textContent='총자산의 '+(capital?position/capital*100:0).toFixed(2)+'%';document.getElementById('riskBudget').textContent=fmt(budget);document.getElementById('stopLoss').textContent=fmt(loss);document.getElementById('usage').style.width=(budget?loss/budget*100:0)+'%'}
-['capital','risk','stop','cap'].forEach(id=>document.getElementById(id).addEventListener('input',recalc));recalc();
+'use strict';
+const API_URL='https://13-125-71-101.sslip.io/api/demo-risk';
+const $=id=>document.getElementById(id);
+const fmt=n=>'₩'+Math.round(n).toLocaleString('ko-KR');
+const pct=(n,d=2)=>Number(n).toFixed(d)+'%';
+const colors=['#63aaf4','#4dc9ae','#eab56c','#b5a0ef'];
+function renderPie(chartId,legendId,items){
+  const sum=items.reduce((s,v)=>s+v[1],0);if(!(sum>0))return;
+  let offset=0;const arcs=items.map((item,i)=>{const start=offset;offset+=item[1]/sum*100;return colors[i%colors.length]+' '+start+'% '+offset+'%'});
+  $(chartId).style.background='conic-gradient('+arcs.join(',')+')';
+  const legend=$(legendId);legend.replaceChildren();
+  items.forEach((item,i)=>{const div=document.createElement('div');div.className='legend';const name=document.createElement('span');const swatch=document.createElement('span');swatch.className='swatch';swatch.style.background=colors[i%colors.length];name.append(swatch,document.createTextNode(item[0]));const num=document.createElement('strong');num.textContent=pct(item[1]/sum*100);div.append(name,num);legend.appendChild(div)});
+}
+// Static, explicitly fictional allocation. The API provides analysis of this DEMO portfolio, not broker balances.
+const demoCashKrw=9100000,demoCashUsdKrw=15400000,demoStocks={SOXL:15400000,MU:16800000,COHR:11900000};
+function allocation(total,weights){
+  const cash=Number(weights.CASH),stocks=['SOXL','MU','COHR'].map(k=>Number(weights[k]));
+  if(!(total>0)||![cash,...stocks].every(Number.isFinite))return;
+  const stockValue=stocks.reduce((a,b)=>a+b,0)/100*total;
+  $('demoTotal').textContent=fmt(total);$('equityPct').textContent=pct(stockValue/total*100);$('equityValue').textContent=fmt(stockValue);
+  // Cash composition is a separate explicitly fictional KRW/USD split, not reported by the API.
+  const cashKrw=total*cash/100;const cashSplit=demoCashKrw/(demoCashKrw+demoCashUsdKrw);
+  const krwCash=cashKrw*cashSplit,usdCash=cashKrw*(1-cashSplit);
+  renderPie('assetChart','assetLegend',[['주식',stockValue],['달러 현금',usdCash],['원화 현금',krwCash]]);
+  renderPie('currencyChart','currencyLegend',[['USD 자산',stockValue+usdCash],['KRW 자산',krwCash]]);
+  renderPie('positionChart','positionLegend',[...['SOXL','MU','COHR'].map(k=>[k,Number(weights[k])*total/100]),['현금',cashKrw]]);
+}
+allocation(68600000,{CASH:35.71429,SOXL:22.44898,MU:24.4898,COHR:17.34694});
+function renderContributions(contributions){
+ const el=$('contributions');el.replaceChildren();
+ for(const ticker of ['SOXL','MU','COHR']){
+  const val=Number(contributions[ticker]);if(!Number.isFinite(val))continue;
+  const row=document.createElement('div');row.className='row';const label=document.createElement('span');label.textContent=ticker;const value=document.createElement('strong');value.textContent=pct(val);row.append(label,value);
+  const bar=document.createElement('div');bar.className='bar';const fill=document.createElement('div');fill.style.width=Math.max(0,Math.min(100,val))+'%';bar.appendChild(fill);el.append(row,bar);
+ }
+}
+function recalc(){const capital=Math.max(0,Number($('capital').value)||0),risk=Number($('risk').value),stop=Number($('stop').value),cap=Number($('cap').value);const budget=capital*risk/100,position=Math.min(budget/(stop/100),capital*cap/100),loss=position*stop/100;$('riskValue').textContent=risk.toFixed(2)+'%';$('stopValue').textContent=stop+'%';$('capValue').textContent=cap+'%';$('positionSize').textContent=fmt(position);$('positionWeight').textContent='총자산의 '+(capital?position/capital*100:0).toFixed(2)+'%';$('riskBudget').textContent=fmt(budget);$('stopLoss').textContent=fmt(loss);$('usage').style.width=(budget?loss/budget*100:0)+'%'}
+['capital','risk','stop','cap'].forEach(id=>$(id).addEventListener('input',recalc));recalc();
+const metricIds=['mBeta','mVol','mSharpe','mSortino','mVar','mCvar','mMdd','mDate','betaSharpe'];
+let fetching=false;
+async function loadDemoRisk(){
+ if(fetching)return;fetching=true;$('refreshApi').disabled=true;
+ $('apiConnection').dataset.status='loading';$('connectionTitle').textContent='AWS 분석 데이터 연결 중…';$('connectionDetail').textContent='HTTPS API 조회 중';
+ try{
+  const ctrl=new AbortController();const timeout=setTimeout(()=>ctrl.abort(),12000);
+  let response;try{response=await fetch(API_URL,{mode:'cors',cache:'no-store',signal:ctrl.signal,headers:{Accept:'application/json'}})}finally{clearTimeout(timeout)}
+  if(!response.ok)throw new Error('HTTP '+response.status);
+  const data=await response.json();
+  if(data.demo!==true||data.schema_version!==1||!data.metrics||!data.variance_contribution_pct)throw new Error('DEMO 데이터 형식 오류');
+  const m=data.metrics;const needed=['portfolio_beta','annual_volatility_pct','sharpe','sortino','historical_1d_var_pct','historical_1d_var_krw','historical_1d_cvar_pct','historical_1d_cvar_krw','max_drawdown_pct'];
+  if(!needed.every(k=>typeof m[k]==='number'&&Number.isFinite(m[k])))throw new Error('위험 지표 누락');
+  $('mBeta').textContent=m.portfolio_beta.toFixed(2);$('mVol').textContent=pct(m.annual_volatility_pct);$('mSharpe').textContent=m.sharpe.toFixed(2);$('mSortino').textContent=m.sortino.toFixed(2);
+  $('mVar').textContent=pct(m.historical_1d_var_pct);$('mVarKr').textContent=fmt(m.historical_1d_var_krw)+' · 과거 표본 추정';
+  $('mCvar').textContent=pct(m.historical_1d_cvar_pct);$('mCvarKr').textContent=fmt(m.historical_1d_cvar_krw)+' · 최악 5% 평균';
+  $('mMdd').textContent=pct(m.max_drawdown_pct);$('mDate').textContent=data.period_end||'—';
+  $('mPeriod').textContent=(data.period_start||'?')+' ~ '+(data.period_end||'?')+' · '+(data.daily_observations??'?')+'거래일 수익률 표본';
+  $('betaSharpe').textContent=m.portfolio_beta.toFixed(2)+' / '+m.sharpe.toFixed(2);
+  renderContributions(data.variance_contribution_pct);
+  $('riskSource').textContent='AWS 분석 · '+(data.period_end||'기준일 미확인')+' · Yahoo Finance 과거 종가 · DEMO';
+  if(Number.isFinite(Number(data.demo_total_krw))&&data.weights_pct)allocation(Number(data.demo_total_krw),data.weights_pct);
+  const generated=data.calculated_at_utc?new Date(data.calculated_at_utc):null;
+  const generatedText=generated&&Number.isFinite(generated.getTime())?generated.toLocaleString('ko-KR',{timeZone:'Asia/Seoul'}):'시각 미확인';
+  $('apiConnection').dataset.status='ok';$('connectionTitle').textContent='AWS 위험 분석 연결됨 · DEMO';
+  $('connectionDetail').textContent='시장 데이터 기준 '+(data.period_end||'—')+' · 분석 생성 '+generatedText+' (KST) · 화면 자동 확인 10분 간격';
+  document.querySelectorAll('.liveStatus').forEach(el=>el.textContent='AWS 데이터 연결됨');
+ }catch(error){
+  metricIds.forEach(id=>$(id).textContent='—');$('mVarKr').textContent='분석 데이터 연결 실패';$('mCvarKr').textContent='분석 데이터 연결 실패';$('mPeriod').textContent='과거가격 분석값 조회 불가';
+  $('contributions').replaceChildren();$('riskSource').textContent='현재 AWS 분석 결과를 불러오지 못했어.';
+  $('apiConnection').dataset.status='error';$('connectionTitle').textContent='AWS API 연결 실패 · 위험 지표 미표시';
+  $('connectionDetail').textContent='상세: '+(error instanceof Error?error.message:'네트워크 오류')+' · 새로고침으로 재시도 가능. 위 자산배분은 가상 예시야.';
+  document.querySelectorAll('.liveStatus').forEach(el=>el.textContent='연결 실패');
+ }finally{fetching=false;$('refreshApi').disabled=false}
+}
+$('refreshApi').addEventListener('click',loadDemoRisk);
+loadDemoRisk();setInterval(()=>{if(!document.hidden)loadDemoRisk()},10*60*1000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadDemoRisk()});
 </script></body></html>
