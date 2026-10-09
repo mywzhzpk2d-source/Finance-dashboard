@@ -1,0 +1,16 @@
+[Unit]
+Description=Finance Demo Risk API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/finance-api
+ExecStart=/home/ubuntu/finance-api/.venv/bin/python -m uvicorn demo_api:app --host 127.0.0.1 --port 8000
+Restart=on-failure
+RestartSec=5
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target
