@@ -19,6 +19,9 @@
 .ig-heat th{color:var(--muted);font-weight:700}.ig-heat td{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
 .ig-meter{height:9px;background:#283240;border-radius:8px;overflow:hidden;margin:8px 0 14px}.ig-meter>div{height:100%;background:var(--blue)}
 #igPanels[hidden]{display:none}
+
+/* STEP 35-4: Public DEMO portfolio vs SPY performance */
+.pf-status{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;border:1px solid #37576b;border-radius:16px;background:#121924;padding:18px;margin-bottom:14px}.pf-status[data-status="ok"]{border-color:#286853}.pf-status[data-status="error"]{border-color:#805332}.pf-status strong{font-size:15px}.pf-status p{margin:7px 0 0}.pf-buttons{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 18px}.pf-buttons button{background:#192434;color:#dbe6f3;border:1px solid #39485c;padding:10px 15px;min-width:55px}.pf-buttons button[aria-pressed="true"]{background:#dbe8f8;color:#101722;border-color:#dbe8f8}.pf-summary{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr));gap:12px;margin-bottom:18px}.pf-summary .card{padding:16px}.pf-val{font-size:clamp(20px,3vw,28px);font-weight:750;font-variant-numeric:tabular-nums;margin:8px 0 2px}.pf-svg{display:block;width:100%;height:auto;min-height:210px;max-height:420px;overflow:visible}.pf-legend{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;margin-bottom:10px}.pf-key{display:inline-block;width:18px;height:4px;border-radius:3px;vertical-align:middle;margin-right:7px}.pf-svg text{fill:#a3aebe;font-size:12px;font-family:inherit}.pf-svg .gridline{stroke:#293542;stroke-width:1}.pf-svg .zero{stroke:#536176;stroke-width:1.3;stroke-dasharray:5 5}.pf-svg .portfolio-line{stroke:#63aaf4}.pf-svg .benchmark-line{stroke:#4dc9ae}.pf-svg path.line{fill:none;stroke-width:2.7;stroke-linejoin:round;stroke-linecap:round}.pf-detail{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 </style>
 </head>
 <body><main>
@@ -49,6 +52,18 @@
 <section class="section"><h2>변동성 위험 기여도</h2><div class="card"><div class="small" id="riskSource">AWS 과거가격 분석 결과 연결 중…</div><div id="contributions" style="margin-top:16px"><p class="small">값을 불러오는 중…</p></div><p class="small">각 종목이 포트폴리오 일별 수익률 분산에 기여하는 비율이야. 주식 보유비중과는 달라.</p></div></section>
 
 <!-- Dynamically populated by PUBLIC fictional-only API; do not place brokerage holdings here. -->
+
+<section class="section" id="performanceAnalysis"><h2>포트폴리오 vs SPY · 누적수익률 DEMO</h2>
+<div class="pf-status" id="pfStatus" data-status="loading" role="status" aria-live="polite"><div><strong id="pfTitle">AWS 성과 데이터 연결 중…</strong><p class="small" id="pfDetail">공개 DEMO 성과 API를 확인하고 있어.</p></div><button type="button" id="pfRefresh">수익률 새로고침</button></div>
+<div id="pfPanels" hidden><div class="card">
+ <div class="pf-buttons" role="group" aria-label="수익률 비교 기간"><button type="button" data-window="1M" aria-pressed="false">1개월</button><button type="button" data-window="3M" aria-pressed="false">3개월</button><button type="button" data-window="6M" aria-pressed="false">6개월</button><button type="button" data-window="1Y" aria-pressed="true">1년</button></div>
+ <div class="pf-summary"><div class="card"><div class="small">포트폴리오 누적수익률</div><div class="pf-val" id="pfPortfolio">—</div></div><div class="card"><div class="small">SPY 누적수익률</div><div class="pf-val" id="pfSpy">—</div></div><div class="card"><div class="small">초과수익률</div><div class="pf-val" id="pfExcess">—</div></div><div class="card"><div class="small">포트폴리오 최대 낙폭</div><div class="pf-val" id="pfMdd">—</div><div class="small" id="pfSpyMdd"></div></div></div>
+ <div class="pf-legend"><span><i class="pf-key" style="background:#63aaf4"></i>가상 포트폴리오</span><span><i class="pf-key" style="background:#4dc9ae"></i>SPY</span></div>
+ <svg class="pf-svg" id="pfChart" viewBox="0 0 760 340" role="img" aria-labelledby="pfChartTitle pfChartDesc"><title id="pfChartTitle">포트폴리오와 SPY 누적수익률 비교</title><desc id="pfChartDesc">선택한 기간 시작점을 0%로 정규화한 과거 수익률 비교 선그래프</desc></svg>
+ <div class="pf-detail"><p class="small" id="pfRange">—</p><p class="small">단위: % · 시계열은 기간 시작일 0% 기준</p></div>
+</div></div>
+<p class="small" style="margin-top:10px">공개 DEMO 전용: SOXL·MU·COHR 가상 투자비중을 매 거래일 재조정하고 현금 수익률과 환율 변동을 0으로 가정했어. 수수료·세금·슬리피지·실제 계좌 거래 이력은 반영되지 않아. 특히 SOXL 같은 레버리지 ETF는 급격한 손실 위험이 있어. 이 결과는 실제 투자 실적이나 미래 예측이 아니야.</p>
+</section>
 <section class="section" id="individualAnalysis"><h2>종목별 위험 분석 · DEMO</h2>
 <div class="ig-status" id="igStatus" data-status="loading" role="status" aria-live="polite"><div><strong id="igTitle">AWS 종목별 분석 연결 중…</strong><p class="small" id="igDetail">별도 공개 DEMO API에서 종목 분석을 가져오는 중</p></div><button type="button" id="igRefresh">종목 분석 새로고침</button></div>
 <div id="igPanels" hidden>
@@ -196,5 +211,60 @@ $('igRefresh').addEventListener('click',loadIndividualRisk);
 $('refreshApi').addEventListener('click',loadIndividualRisk);
 loadIndividualRisk();setInterval(()=>{if(!document.hidden)loadIndividualRisk()},10*60*1000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadIndividualRisk()});
+
+
+// STEP 35-4: public fictional portfolio-vs-SPY performance; no brokerage credentials or holdings.
+const PF_URL='https://13-125-71-101.sslip.io/api/demo-performance';
+const PF_WINDOWS={'1M':21,'3M':63,'6M':126,'1Y':252};
+let pfData=null,pfLoading=false,pfWindow='1Y';
+function pfCheck(d){
+ if(!d||d.demo!==true||d.schema_version!==1||d.benchmark!=='SPY'||d.daily_observations!==252||!d.periods||!Array.isArray(d.daily_cumulative_returns)||d.daily_cumulative_returns.length!==253)return false;
+ if(!/^\d{4}-\d{2}-\d{2}$/.test(d.period_start||'')||!/^\d{4}-\d{2}-\d{2}$/.test(d.period_end||''))return false;
+ for(const [key,n] of Object.entries(PF_WINDOWS)){
+  const p=d.periods[key];if(!p||p.trading_days!==n)return false;
+  for(const k of ['portfolio_return_pct','spy_return_pct','excess_return_pct','portfolio_mdd_pct','spy_mdd_pct'])if(typeof p[k]!=='number'||!Number.isFinite(p[k]))return false;
+ }
+ for(const r of d.daily_cumulative_returns){if(!/^\d{4}-\d{2}-\d{2}$/.test(r.date||'')||!Number.isFinite(r.portfolio_pct)||!Number.isFinite(r.spy_pct))return false}
+ return true;
+}
+const pfFormat=n=>(n>0?'+':'')+n.toFixed(2)+'%';
+function pfSvg(tag,attrs={},str){const e=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,String(v));if(str!==undefined)e.textContent=str;return e}
+function pfDraw(points){
+ const svg=$('pfChart');svg.replaceChildren();const W=760,H=340,L=66,R=15,T=16,B=43;
+ const vals=points.flatMap(p=>[p.portfolio,p.spy,0]);let low=Math.min(...vals),high=Math.max(...vals);const gap=Math.max(3,(high-low)*.09);low-=gap;high+=gap;
+ const X=i=>L+(W-L-R)*i/Math.max(1,points.length-1);const Y=v=>T+(H-T-B)*(high-v)/(high-low);
+ for(let j=0;j<=4;j++){const v=low+(high-low)*j/4,y=Y(v);svg.append(pfSvg('line',{x1:L,x2:W-R,y1:y,y2:y,class:'gridline'}));svg.append(pfSvg('text',{x:L-11,y:y+4,'text-anchor':'end'},v.toFixed(0)+'%'))}
+ if(low<=0&&high>=0)svg.append(pfSvg('line',{x1:L,x2:W-R,y1:Y(0),y2:Y(0),class:'zero'}));
+ for(const j of [0,1,2,3,4]){const i=Math.round((points.length-1)*j/4);svg.append(pfSvg('text',{x:X(i),y:H-14,'text-anchor':j===0?'start':j===4?'end':'middle'},points[i].date.slice(5)))}
+ for(const [key,cls] of [['portfolio','portfolio-line'],['spy','benchmark-line']]){const d=points.map((p,i)=>(i?'L':'M')+X(i).toFixed(2)+' '+Y(p[key]).toFixed(2)).join(' ');svg.append(pfSvg('path',{d,class:'line '+cls}))}
+}
+function pfRender(){
+ if(!pfData)return;const p=pfData.periods[pfWindow],n=PF_WINDOWS[pfWindow],src=pfData.daily_cumulative_returns,rows=src.slice(-n-1);
+ if(rows.length!==n+1)throw Error('기간별 수익률 데이터 부족');
+ // Rebase the selected historical window independently to 0%.
+ const baseP=1+rows[0].portfolio_pct/100,baseS=1+rows[0].spy_pct/100;
+ if(baseP<=0||baseS<=0)throw Error('수익률 기준점 오류');
+ const points=rows.map(r=>({date:r.date,portfolio:((1+r.portfolio_pct/100)/baseP-1)*100,spy:((1+r.spy_pct/100)/baseS-1)*100}));
+ $('pfPortfolio').textContent=pfFormat(p.portfolio_return_pct);$('pfSpy').textContent=pfFormat(p.spy_return_pct);$('pfExcess').textContent=pfFormat(p.excess_return_pct);$('pfMdd').textContent=pfFormat(p.portfolio_mdd_pct);$('pfSpyMdd').textContent='SPY MDD '+pfFormat(p.spy_mdd_pct);
+ $('pfRange').textContent=p.period_start+' ~ '+p.period_end+' · '+n+'거래일';
+ document.querySelectorAll('[data-window]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.window===pfWindow)));
+ pfDraw(points);$('pfPanels').hidden=false;
+}
+async function loadPerformance(){
+ if(pfLoading)return;pfLoading=true;$('pfRefresh').disabled=true;$('pfStatus').dataset.status='loading';$('pfTitle').textContent='AWS 성과 데이터 연결 중…';
+ try{
+  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),13000);let response;
+  try{response=await fetch(PF_URL,{mode:'cors',cache:'no-store',headers:{Accept:'application/json'},signal:controller.signal})}finally{clearTimeout(timer)}
+  if(!response.ok)throw Error('HTTP '+response.status);
+  const data=await response.json();if(!pfCheck(data))throw Error('공개 DEMO 시계열 형식 오류');pfData=data;pfRender();
+  $('pfStatus').dataset.status='ok';$('pfTitle').textContent='AWS 수익률 분석 연결됨 · DEMO';$('pfDetail').textContent='기준일 '+data.period_end+' · 10분마다 자동 확인 · 실제 계좌 미연동';
+ }catch(e){pfData=null;$('pfPanels').hidden=true;$('pfStatus').dataset.status='error';$('pfTitle').textContent='AWS 수익률 API 연결 실패';$('pfDetail').textContent=(e instanceof Error?e.message:'네트워크 오류')+' · 새로고침으로 재시도할 수 있어.'}
+ finally{pfLoading=false;$('pfRefresh').disabled=false}
+}
+document.querySelectorAll('[data-window]').forEach(b=>b.addEventListener('click',()=>{pfWindow=b.dataset.window;if(pfData)pfRender()}));
+$('pfRefresh').addEventListener('click',loadPerformance);
+$('refreshApi').addEventListener('click',loadPerformance);
+loadPerformance();setInterval(()=>{if(!document.hidden)loadPerformance()},10*60*1000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadPerformance()});
 
 </script></body></html>
