@@ -3,7 +3,7 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="width=980, initial-scale=1.0" name="viewport"/>
 <meta content="#090d12" name="theme-color"/>
 <title>BJ Market Terminal</title>
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
@@ -42,7 +42,7 @@ input,select,textarea{width:100%;padding:13px 14px;border-radius:12px;border:1px
 .sector-manager{margin-bottom:14px}.sector-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}.sector-tab{border:1px solid var(--line);background:var(--panel);color:var(--muted);padding:10px 13px;border-radius:999px}.sector-tab.active{background:var(--accent);color:var(--accentText)}
 .remove-btn{background:transparent;border:0;color:#ef4444}.prompt-box{white-space:pre-wrap;background:#0f172a;color:#e2e8f0;border-radius:16px;padding:20px;line-height:1.65;min-height:220px;margin:16px 0}
 @media(max-width:1200px){.macro-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:820px){
+@media(max-width:1100px){
   .app{grid-template-columns:1fr}.sidebar{position:static;height:auto}nav{grid-template-columns:repeat(5,minmax(145px,1fr));overflow-x:auto;scrollbar-width:thin}
   .main{padding:18px 12px 32px}.topbar{align-items:flex-start;gap:12px}.top-right{text-align:right}.macro-grid,.risk-grid,.ranking-grid,.form-grid,.watch-form,.manager-row,.manager-four{grid-template-columns:1fr}
   .rates-box{height:320px}.mini-box{height:240px}.risk-box{height:270px}.spread-head{flex-direction:column}.spread-canvas-wrap{height:300px}
@@ -86,7 +86,7 @@ input,select,textarea{width:100%;padding:13px 14px;border-radius:12px;border:1px
 .stat-row .stat-card strong{font-size:22px}
 .pos{color:#4ade80}
 .neg{color:#f87171}
-@media(max-width:820px){.stat-row{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:1100px){.stat-row{grid-template-columns:repeat(2,1fr)}}
 
 /* ---- Watchlist tags ---- */
 .watch-tags{margin-top:6px;display:flex;flex-wrap:wrap;gap:6px}
@@ -95,7 +95,7 @@ input,select,textarea{width:100%;padding:13px 14px;border-radius:12px;border:1px
 
 .rate-card + .rate-card{margin-top:16px}
 
-/* BJ Market Terminal — risk shortcuts (2 columns on desktop and mobile) */
+/* BJ Market Terminal — wide mobile desktop-style layout, 5 tabs + Risk Lab below */
 .sidebar nav{display:flex;flex-direction:column;gap:9px;min-width:0;overflow:visible}
 .sidebar nav>.nav-btn{width:100%;min-width:0}
 .main-nav{display:grid;grid-template-columns:1fr;gap:8px}
@@ -103,10 +103,10 @@ input,select,textarea{width:100%;padding:13px 14px;border-radius:12px;border:1px
 .risk-extra{grid-column:1;display:grid;grid-template-columns:1fr;gap:8px;align-items:start}
 .risk-extra-link{display:block;padding:12px 14px;text-decoration:none;background:#172338;border:1px solid #334155;border-radius:12px;color:#cbd5e1;text-align:left;font-weight:650;font-size:13px}
 .risk-extra-link:hover,.risk-extra-link:focus-visible{background:#273957;color:#fff}
-@media(max-width:820px){
+@media(max-width:1100px){
   .sidebar .main-nav{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:7px;overflow:visible;align-items:stretch}
   .sidebar .main-nav>.nav-btn,.sidebar .main-nav>.nav-link{padding:11px 6px;min-height:54px;display:flex;justify-content:center;align-items:center;text-align:center;font-size:11px;line-height:1.4;white-space:normal;overflow-wrap:anywhere}
-  .sidebar .main-nav>.risk-extra{grid-column:1 / span 2;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));width:100%;margin-top:3px}
+  .sidebar .main-nav>.risk-extra{grid-column:1 / span 1;display:grid;grid-template-columns:1fr;width:100%;margin-top:3px}
   .sidebar .risk-extra-link{grid-column:1 / -1;padding:12px 10px;text-align:center;min-height:48px;display:flex;justify-content:center;align-items:center}
 }
 </style>
