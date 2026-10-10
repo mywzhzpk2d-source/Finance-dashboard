@@ -7,6 +7,18 @@
 :root{color-scheme:dark;--bg:#090d12;--card:#111720;--border:#293542;--text:#eef2f7;--muted:#a3aebe;--blue:#63aaf4;--teal:#4dc9ae;--amber:#eab56c;--violet:#b5a0ef}
 *{box-sizing:border-box}body{background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif;margin:0}main{max-width:1180px;margin:auto;padding:24px 16px 70px}a{color:#9bc8ff}.top{display:flex;justify-content:space-between;gap:16px;align-items:center;flex-wrap:wrap}.top h1{margin:8px 0 4px;font-size:clamp(24px,4vw,35px)}.muted{color:var(--muted)}.eyebrow{letter-spacing:.14em;color:var(--muted);font-weight:700;font-size:11px}.badge{padding:7px 11px;border:1px solid #a87639;color:#f1bf7b;border-radius:30px;font-size:12px;white-space:nowrap}.notice{margin-top:21px;border:1px solid #725734;background:#292116;padding:14px 17px;border-radius:12px;color:#f0cda0;font-size:13px;line-height:1.7}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,245px),1fr));gap:14px}.card{border:1px solid var(--border);border-radius:18px;background:var(--card);padding:20px;min-width:0}.section{margin-top:29px}.section h2{margin:0 0 14px;font-size:20px}.stat{font-size:clamp(23px,3vw,34px);font-weight:750;margin:12px 0 5px;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.small{font-size:12px;color:var(--muted);line-height:1.7}.card h3{font-size:15px;margin:0 0 16px}.donut{width:min(196px,85%);aspect-ratio:1;border-radius:50%;margin:15px auto 20px;position:relative}.donut::after{content:"";position:absolute;inset:28px;background:var(--card);border-radius:50%}.legend{display:flex;justify-content:space-between;gap:10px;border-bottom:1px solid var(--border);padding:9px 0;font-size:13px}.swatch{width:10px;height:10px;border-radius:3px;display:inline-block;margin-right:7px}.row{display:flex;justify-content:space-between;align-items:center;gap:12px}.bar{height:10px;background:#283240;border-radius:8px;overflow:hidden;margin:8px 0 15px}.bar>div{height:100%;background:var(--blue);border-radius:8px}.bar.teal>div{background:var(--teal)}.formrow{margin:18px 0}.formrow label{font-size:13px}input[type=range]{width:100%;accent-color:var(--blue);margin:12px 0}input[type=number]{width:100%;background:#0c1119;color:var(--text);border:1px solid #405064;padding:12px 14px;border-radius:10px;font-size:17px}.big{font-weight:780;font-size:clamp(23px,3vw,32px);margin:14px 0}table{width:100%;border-collapse:collapse;font-size:13px}th,td{border-bottom:1px solid var(--border);padding:12px 6px;text-align:left}th:last-child,td:last-child{text-align:right}.dim{opacity:.7}button{background:#dbe8f8;color:#101722;font-weight:700;border:0;border-radius:10px;padding:12px 16px;cursor:pointer}.pills{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}.pill{border:1px solid #43556b;padding:7px 9px;border-radius:20px;font-size:12px;color:#bbcad8}.connection{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap}.connection strong{font-size:14px}.connection p{margin:6px 0 0}.connection[data-status="ok"]{border-color:#286853}.connection[data-status="error"]{border-color:#805332}.metric-note{margin-top:9px;color:var(--muted);font-size:12px;line-height:1.5}.metric-value{font-size:clamp(22px,3vw,31px);font-weight:750;margin-top:11px;font-variant-numeric:tabular-nums}.metric-negative{color:#f49a98}.metric-label{font-size:13px;color:var(--muted)}.tablewrap{overflow-x:auto}td.status{text-align:right;min-width:120px}
 @media(max-width:600px){main{padding:20px 12px 60px}.card{padding:17px}.grid{gap:12px}}
+
+/* Integrated per-ticker DEMO risk panel */
+.ig-status{border:1px solid #43556b;border-radius:15px;background:var(--card);padding:18px;display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:12px}
+.ig-status[data-status="ok"]{border-color:#286853}.ig-status[data-status="error"]{border-color:#805332}
+.ig-status strong{font-size:15px}.ig-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,260px),1fr));gap:14px;margin-top:14px}
+.ig-item{display:flex;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13px}
+.ig-item span{color:var(--muted)}.ig-item strong{font-variant-numeric:tabular-nums}
+.ig-heat{overflow-x:auto;max-width:100%;margin-top:15px}.ig-heat table{width:100%;min-width:320px;border-spacing:6px;border-collapse:separate}
+.ig-heat th,.ig-heat td{border:0;text-align:center;border-radius:8px;padding:13px 8px;font-size:13px;white-space:nowrap}
+.ig-heat th{color:var(--muted);font-weight:700}.ig-heat td{font-size:15px;font-weight:800;font-variant-numeric:tabular-nums}
+.ig-meter{height:9px;background:#283240;border-radius:8px;overflow:hidden;margin:8px 0 14px}.ig-meter>div{height:100%;background:var(--blue)}
+#igPanels[hidden]{display:none}
 </style>
 </head>
 <body><main>
@@ -35,6 +47,19 @@
 <div class="card"><h3>전체 자산 대비 종목별 비중</h3><div class="donut" id="positionChart"></div><div id="positionLegend"></div></div>
 </div></section>
 <section class="section"><h2>변동성 위험 기여도</h2><div class="card"><div class="small" id="riskSource">AWS 과거가격 분석 결과 연결 중…</div><div id="contributions" style="margin-top:16px"><p class="small">값을 불러오는 중…</p></div><p class="small">각 종목이 포트폴리오 일별 수익률 분산에 기여하는 비율이야. 주식 보유비중과는 달라.</p></div></section>
+
+<!-- Dynamically populated by PUBLIC fictional-only API; do not place brokerage holdings here. -->
+<section class="section" id="individualAnalysis"><h2>종목별 위험 분석 · DEMO</h2>
+<div class="ig-status" id="igStatus" data-status="loading" role="status" aria-live="polite"><div><strong id="igTitle">AWS 종목별 분석 연결 중…</strong><p class="small" id="igDetail">별도 공개 DEMO API에서 종목 분석을 가져오는 중</p></div><button type="button" id="igRefresh">종목 분석 새로고침</button></div>
+<div id="igPanels" hidden>
+ <div class="ig-grid" id="igTickers"></div>
+ <div class="grid" style="margin-top:15px">
+  <div class="card"><h3>종목별 상관계수 히트맵</h3><p class="small">+1은 동행 경향, 0은 선형 관계가 약함, -1은 반대 방향의 경향을 의미해. 과거 상관계수는 향후 분산효과를 보장하지 않아.</p><div class="ig-heat" id="igHeatmap"></div><p class="small" id="igPeriod"></p></div>
+  <div class="card"><h3>종목별 위험 기여도</h3><div id="igContrib"></div><p class="small">분산 기여도는 단순 투자 비중과 다르며 0~100% 밖으로 벗어날 수도 있어.</p></div>
+ </div>
+</div>
+<p class="small" style="margin-top:10px">현재 종목은 공개용 SOXL·MU·COHR 가상 예시야. 계좌 미연동 상태이며 실제 보유 종목이 공개되지 않아. 별도 종목 분석 API가 실패하면 위 분석을 숨기고 오류를 표시해.</p>
+</section>
 <section class="section"><h2>매매 위험 관리</h2><div class="grid">
 <div class="card"><h3>위험 예산 설정</h3><div class="formrow"><label for="capital">총자산 (KRW)</label><input type="number" id="capital" value="68600000" min="0" step="100000"></div>
 <div class="formrow"><div class="row"><label for="risk">한 거래당 위험 한도</label><strong id="riskValue">1.00%</strong></div><input type="range" id="risk" min="0.25" max="3" step="0.25" value="1"></div>
@@ -121,4 +146,55 @@ async function loadDemoRisk(){
 $('refreshApi').addEventListener('click',loadDemoRisk);
 loadDemoRisk();setInterval(()=>{if(!document.hidden)loadDemoRisk()},10*60*1000);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadDemoRisk()});
+
+// Integrated generic-analysis PUBLIC DEMO only; intentionally independent of main risk metrics.
+const IG_URL='https://13-125-71-101.sslip.io/api/demo-individual-risk';
+const igEl=(tag,cls,value)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(value!==undefined)e.textContent=String(value);return e};
+const igNum=value=>Number(value).toFixed(2);
+const igPct=value=>igNum(value)+'%';
+function igValid(d){
+ if(!d||d.schema_version!==1||d.demo!==true||!Array.isArray(d.tickers)||d.tickers.length!==3||new Set(d.tickers).size!==3)return false;
+ if(!d.tickers.every(t=>['SOXL','MU','COHR'].includes(t))||!d.individual||!d.correlations||!d.risk_contribution_pct)return false;
+ if(typeof d.period_end!=='string'||typeof d.period_start!=='string'||!Number.isInteger(d.daily_observations))return false;
+ for(const t of d.tickers){
+  const x=d.individual[t];if(!x)return false;
+  for(const k of ['weight_pct','beta_vs_benchmark','annual_volatility_pct','correlation_vs_benchmark','risk_contribution_pct'])if(typeof x[k]!=='number'||!Number.isFinite(x[k]))return false;
+  if(typeof d.risk_contribution_pct[t]!=='number'||!Number.isFinite(d.risk_contribution_pct[t]))return false;
+  for(const u of d.tickers){const v=d.correlations[t]?.[u];if(typeof v!=='number'||!Number.isFinite(v)||Math.abs(v)>1.00001)return false}
+ }
+ return true;
+}
+function igRender(d){
+ const cards=$('igTickers');cards.replaceChildren();
+ for(const t of d.tickers){
+  const x=d.individual[t],card=igEl('article','card');card.appendChild(igEl('h3','',t));
+  for(const [k,v] of [['전체 자산 내 비중',igPct(x.weight_pct)],['SPY 대비 베타',igNum(x.beta_vs_benchmark)],['연율화 변동성',igPct(x.annual_volatility_pct)],['SPY와 상관계수',igNum(x.correlation_vs_benchmark)],['포트폴리오 위험 기여도',igPct(x.risk_contribution_pct)]]){
+   const row=igEl('div','ig-item');row.append(igEl('span','',k),igEl('strong','',v));card.appendChild(row)
+  }
+  cards.appendChild(card)
+ }
+ const tab=igEl('table');const head=igEl('thead');const hrow=igEl('tr');hrow.appendChild(igEl('th','','종목'));for(const t of d.tickers)hrow.appendChild(igEl('th','',t));head.appendChild(hrow);tab.appendChild(head);
+ const body=igEl('tbody');for(const t of d.tickers){const row=igEl('tr');row.appendChild(igEl('th','',t));for(const u of d.tickers){const v=d.correlations[t][u],cell=igEl('td','',igNum(v)),strength=Math.abs(v);cell.style.background=v>=0?`rgba(77,201,174,${0.09+0.58*strength})`:`rgba(244,154,152,${0.09+0.58*strength})`;cell.style.color='#f4f7fa';cell.setAttribute('aria-label',`${t}, ${u} 상관계수 ${igNum(v)}`);row.appendChild(cell)}body.appendChild(row)}tab.appendChild(body);$('igHeatmap').replaceChildren(tab);
+ $('igPeriod').textContent=`분석 기간 ${d.period_start} ~ ${d.period_end} · ${d.daily_observations}거래일 · SPY 벤치마크`;
+ const cont=$('igContrib');cont.replaceChildren();for(const t of d.tickers){const v=d.risk_contribution_pct[t],head=igEl('div','row');head.append(igEl('strong','',t),igEl('span','',igPct(v)));const track=igEl('div','ig-meter'),fill=igEl('div');fill.style.width=Math.max(0,Math.min(100,v))+'%';track.appendChild(fill);cont.append(head,track)}
+ $('igPanels').hidden=false;
+}
+let igLoading=false;
+async function loadIndividualRisk(){
+ if(igLoading)return;igLoading=true;$('igRefresh').disabled=true;$('igPanels').hidden=true;$('igStatus').dataset.status='loading';$('igTitle').textContent='AWS 종목별 분석 연결 중…';$('igDetail').textContent='HTTPS로 DEMO 종목 분석을 확인하고 있어.';
+ try{
+  const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),13000);let response;
+  try{response=await fetch(IG_URL,{mode:'cors',cache:'no-store',headers:{Accept:'application/json'},signal:ctrl.signal})}finally{clearTimeout(timer)}
+  if(!response.ok)throw Error('HTTP '+response.status);
+  const d=await response.json();if(!igValid(d))throw Error('공개 DEMO 데이터 형식 확인 실패');igRender(d);
+  $('igStatus').dataset.status='ok';$('igTitle').textContent='AWS 종목별 분석 연결됨 · DEMO';$('igDetail').textContent=`시장 데이터 기준 ${d.period_end} · 10분마다 확인 · 실제 계좌 미연동`;
+ }catch(e){$('igPanels').hidden=true;$('igStatus').dataset.status='error';$('igTitle').textContent='종목별 AWS 연결 실패 · 분석값 미표시';$('igDetail').textContent=(e instanceof Error?e.message:'네트워크 오류')+' · 종목 분석 새로고침으로 재시도할 수 있어.'}
+ finally{igLoading=false;$('igRefresh').disabled=false}
+}
+$('igRefresh').addEventListener('click',loadIndividualRisk);
+// One click refreshes both independent DEMO endpoints.
+$('refreshApi').addEventListener('click',loadIndividualRisk);
+loadIndividualRisk();setInterval(()=>{if(!document.hidden)loadIndividualRisk()},10*60*1000);
+document.addEventListener('visibilitychange',()=>{if(!document.hidden)loadIndividualRisk()});
+
 </script></body></html>
