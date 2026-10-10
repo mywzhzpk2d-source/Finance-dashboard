@@ -83,21 +83,6 @@
 <div class="card"><h3>계산 결과</h3><div class="small">이론상 최대 신규 매수 금액</div><div class="big" id="positionSize"></div><p class="small" id="positionWeight"></p><div class="row"><span>거래당 위험 예산</span><strong id="riskBudget"></strong></div><div class="row" style="margin-top:15px"><span>손절 시 추정 손실</span><strong id="stopLoss"></strong></div><p class="small" style="margin-top:20px">위험 예산 사용률</p><div class="bar teal"><div id="usage" style="width:0"></div></div><p class="small">손절가에 정확히 체결된다는 가정이야. 갭 하락, 환율 변동, 레버리지 ETF, 슬리피지, 이미 보유한 위험 노출은 별도로 고려해야 해.</p></div>
 </div></section>
 <section class="section"><h2>계좌 연동 및 데이터 상태</h2><div class="card tablewrap"><table><tr><th>항목</th><th>상태</th></tr><tr><td>원화·달러 예수금 / 보유 주식</td><td class="status">DEMO</td></tr><tr><td>SPY 대비 베타</td><td class="status liveStatus">연결 중</td></tr><tr><td>Sharpe / Sortino</td><td class="status liveStatus">연결 중</td></tr><tr><td>VaR / CVaR / MDD</td><td class="status liveStatus">연결 중</td></tr><tr><td>토스증권 API</td><td class="status">미연동</td></tr><tr><td>AWS 전송 구간</td><td class="status">HTTPS · 공개 DEMO 전용</td></tr><tr><td>실계좌 접근 인증</td><td class="status">미구축</td></tr></table><div class="pills"><span class="pill">SPY 벤치마크</span><span class="pill">KRW 기준 평가</span><span class="pill">DEMO 데이터만 공개</span></div></div></section>
-
-<!-- STEP 37-2: DEMO optimizer launch; separate page preserves the original dashboards. -->
-<section class="section" id="portfolioOptimizerLink">
-  <h2>포트폴리오 비중 최적화 · DEMO</h2>
-  <div class="card">
-    <h3>최소 변동성 포트폴리오 분석</h3>
-    <p class="small">SOXL·MU·COHR의 비중을 조절하고, 종목별 비중 상한 내 최소 변동성 구성과 위험 기여도를 비교할 수 있어. 과거 시장 데이터에 기반한 가상 분석이야.</p>
-    <a href="./portfolio-optimizer-demo.html" style="display:inline-block;margin-top:12px;padding:13px 18px;background:#63aaf4;color:#09111b;border-radius:10px;font-weight:750;text-decoration:none;">최적화 도구 열기 →</a>
-  </div>
-  <div class="card">
-    <h3>기대수익률 기반 효율적 투자선 · STEP 38</h3>
-    <p class="small">SOXL·MU·COHR의 <b>가정 기대수익률</b>을 직접 조절하고 최소분산 및 최대 샤프비율 포트폴리오를 비교해. 수익률 가정은 예측값이 아니며, AWS 과거 공분산으로 위험을 추정하는 공개 DEMO야.</p>
-    <a href="./efficient-frontier-demo.html" style="display:inline-block;margin-top:12px;padding:13px 18px;background:#4dc9ae;color:#09111b;border-radius:10px;font-weight:750;text-decoration:none;">효율적 투자선 열기 →</a>
-  </div>
-</section>
 </main>
 <script>
 'use strict';
