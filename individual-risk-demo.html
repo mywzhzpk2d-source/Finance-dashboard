@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#090d12">
+<title>종목별 위험 분석 | BJ Market Terminal</title>
+<style>
+:root{color-scheme:dark;--bg:#090d12;--panel:#111720;--line:#293542;--text:#eef2f7;--muted:#a3aebe;--blue:#63aaf4;--green:#4dc9ae}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,-apple-system,BlinkMacSystemFont,"Noto Sans KR",sans-serif}main{max-width:1120px;margin:auto;padding:24px 15px 65px}a{color:#a8ceff}header{padding:8px 0 15px}h1{font-size:clamp(25px,4vw,34px);margin:17px 0 7px}h2{font-size:20px;margin:28px 0 12px}.muted{color:var(--muted);font-size:13px;line-height:1.65}.eyebrow{font-size:11px;font-weight:700;letter-spacing:.12em;color:var(--muted)}.card{background:var(--panel);border:1px solid var(--line);border-radius:17px;padding:19px;min-width:0}.notice{background:#292116;border:1px solid #725734;color:#f0cda0;padding:15px;border-radius:12px;line-height:1.7;font-size:13px}.status{border:1px solid #43556b}.status[data-status=ok]{border-color:#286853}.status[data-status=error]{border-color:#805332}.status strong{font-size:15px}.row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr));gap:12px}.ticker{font-weight:800;font-size:20px}.value{font-size:25px;font-weight:750;font-variant-numeric:tabular-nums}button{border:0;background:#dbe8f8;color:#101722;padding:11px 16px;border-radius:9px;font-weight:700;cursor:pointer}button:disabled{opacity:.5;cursor:wait}.tablewrap{overflow:auto}table{border-collapse:separate;border-spacing:6px;width:100%;min-width:350px}th,td{padding:12px 8px;text-align:center;border-radius:8px;font-variant-numeric:tabular-nums}th{font-size:12px;color:var(--muted)}td{font-weight:750}tbody th{font-weight:750;color:var(--text)}.metric{border-bottom:1px solid var(--line);padding:10px 0;display:flex;justify-content:space-between;gap:10px;font-size:13px}.metric span:first-child{color:var(--muted)}.meter{height:9px;border-radius:8px;background:#283240;overflow:hidden;margin-top:9px}.meter>div{height:100%;background:var(--blue)}.warning{margin-top:17px;color:var(--muted);font-size:12px;line-height:1.7}#dataPanels[hidden]{display:none}
+</style>
+</head>
+<body><main>
+<header><a href="./portfolio-analytics.html">← Portfolio Analytics 돌아가기</a><div class="eyebrow" style="margin-top:20px">BJ MARKET TERMINAL · DEMO</div><h1>종목별 위험 분석</h1><div class="muted">SPY 대비 베타 · 변동성 · 위험 기여도 · 상관계수 히트맵</div></header>
+<div class="notice"><strong>공개 DEMO 전용:</strong> SOXL·MU·COHR는 실제 보유종목이 아닌 가상 예시야. 토스증권 계좌와 연결되지 않았고, 과거 주가를 이용한 수치는 미래 수익이나 손실을 보장하지 않아. 이 공개 페이지와 API에 실제 보유 내역이나 API 키를 저장하면 안 돼.</div>
+<section class="card status" id="status" data-status="loading" style="margin-top:20px" role="status" aria-live="polite"><div class="row"><div><strong id="statusTitle">AWS 연결 중…</strong><p class="muted" id="statusText">HTTPS로 DEMO 데이터를 요청하는 중이야.</p></div><button id="refresh" type="button">새로고침</button></div></section>
+<div id="dataPanels" hidden>
+<section><h2>종목별 위험 분석</h2><div class="grid" id="tickers"></div></section>
+<section><h2>상관계수 히트맵</h2><div class="card"><p class="muted">+1이면 함께 움직이는 경향이 강하고, 0이면 선형 관계가 약하며, -1이면 반대로 움직이는 경향이 강해. 상관계수는 분산 효과를 보장하지 않아.</p><div class="tablewrap" id="heatmap"></div><div class="muted" id="period"></div></div></section>
+<section><h2>위험 기여도 비교</h2><div class="card" id="riskContributions"></div></section>
+</div><p class="warning">분석의 한계: 과거 가격·고정 환율·가상 보유 비중에 기초하며 슬리피지, 실제 거래 내역, 세금 및 레버리지 ETF의 극단적 움직임을 완전히 반영하지 않아. 연결 실패 시 오래된 수치를 표시하지 않아.</p>
+</main><script>
+'use strict';
+const ENDPOINT='https://13-125-71-101.sslip.io/api/demo-individual-risk';
+const $=id=>document.getElementById(id);
+const percent=n=>Number(n).toFixed(2)+'%';
+const number=n=>Number(n).toFixed(2);
+const create=(tag,cls,content)=>{const n=document.createElement(tag);if(cls)n.className=cls;if(content!==undefined)n.textContent=String(content);return n};
+const valid=(obj)=>{
+ if(!obj||obj.demo!==true||obj.schema_version!==1||!Array.isArray(obj.tickers)||obj.tickers.length!==3)return false;
+ if(new Set(obj.tickers).size!==3||!obj.tickers.every(t=>['SOXL','MU','COHR'].includes(t)))return false;
+ if(!obj.individual||!obj.correlations||!obj.risk_contribution_pct)return false;
+ for(const t of obj.tickers){const x=obj.individual[t],v=obj.risk_contribution_pct[t];if(!x||!['weight_pct','beta_vs_benchmark','annual_volatility_pct','correlation_vs_benchmark','risk_contribution_pct'].every(k=>typeof x[k]==='number'&&Number.isFinite(x[k])))return false;if(typeof v!=='number'||!Number.isFinite(v))return false;for(const s of obj.tickers){const c=obj.correlations[t]?.[s];if(typeof c!=='number'||!Number.isFinite(c)||Math.abs(c)>1.00001)return false}}
+ return true;
+};
+function render(data){
+ const cards=$('tickers');cards.replaceChildren();
+ for(const ticker of data.tickers){const x=data.individual[ticker],card=create('article','card');card.appendChild(create('div','ticker',ticker));for(const [label,val] of [['자산 내 비중',percent(x.weight_pct)],['SPY 대비 베타',number(x.beta_vs_benchmark)],['연율화 변동성',percent(x.annual_volatility_pct)],['SPY 상관계수',number(x.correlation_vs_benchmark)],['위험 기여도',percent(x.risk_contribution_pct)]]){const row=create('div','metric');row.append(create('span','',label),create('strong','',val));card.appendChild(row)}cards.appendChild(card)}
+ const table=create('table');const thead=create('thead');const top=create('tr');top.appendChild(create('th','','종목'));for(const t of data.tickers)top.appendChild(create('th','',t));thead.appendChild(top);table.appendChild(thead);const body=create('tbody');
+ for(const t of data.tickers){const row=create('tr');row.appendChild(create('th','',t));for(const s of data.tickers){const v=data.correlations[t][s];const cell=create('td','',number(v));const strength=Math.abs(v);cell.style.background=v>=0?`rgba(77,201,174,${0.09+0.58*strength})`:`rgba(244,154,152,${0.09+0.58*strength})`;cell.style.color='#f3f6fa';cell.setAttribute('aria-label',`${t} 및 ${s} 상관계수 ${number(v)}`);row.appendChild(cell)}body.appendChild(row)}table.appendChild(body);$('heatmap').replaceChildren(table);
+ $('period').textContent=`분석 기간: ${data.period_start} ~ ${data.period_end} · ${data.daily_observations}거래일 · 벤치마크 ${data.benchmark}`;
+ const target=$('riskContributions');target.replaceChildren();for(const t of data.tickers){const v=data.risk_contribution_pct[t];const row=create('div','row');row.append(create('strong','',t),create('span','',percent(v)));const bar=create('div','meter');const fill=create('div');fill.style.width=Math.max(0,Math.min(100,v))+'%';bar.appendChild(fill);target.append(row,bar)}
+ $('dataPanels').hidden=false;
+}
+let loading=false;
+async function load(){if(loading)return;loading=true;$('refresh').disabled=true;$('status').dataset.status='loading';$('statusTitle').textContent='AWS 연결 중…';$('statusText').textContent='DEMO 분석 데이터 확인 중';$('dataPanels').hidden=true;
+ try{const ctrl=new AbortController();const timer=setTimeout(()=>ctrl.abort(),13000);let response;try{response=await fetch(ENDPOINT,{mode:'cors',cache:'no-store',headers:{Accept:'application/json'},signal:ctrl.signal})}finally{clearTimeout(timer)}if(!response.ok)throw Error('HTTP '+response.status);const data=await response.json();if(!valid(data))throw Error('DEMO 응답 형식 검증 실패');render(data);$('status').dataset.status='ok';$('statusTitle').textContent='AWS 종목별 분석 연결됨 · DEMO';$('statusText').textContent=`기준일 ${data.period_end} · 10분마다 연결 확인 · 실제 계좌 미연동`;
+ }catch(e){$('dataPanels').hidden=true;$('status').dataset.status='error';$('statusTitle').textContent='AWS 연결 실패 · 분석값 미표시';$('statusText').textContent=(e instanceof Error?e.message:'네트워크 오류')+' · HTTPS 서버의 새 API 경로 설치 상태를 확인해 줘.'}finally{$('refresh').disabled=false;loading=false}}
+$('refresh').addEventListener('click',load);load();setInterval(()=>{if(!document.hidden)load()},10*60*1000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)load()});
+</script></body></html>
